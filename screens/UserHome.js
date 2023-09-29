@@ -29,7 +29,7 @@ const Member = () => {
     return (
         <View style={styles.memberContainer}>
             <Text style={styles.title}>Active Members</Text>
-            <MembersList />
+            <MembersList mb={height * .572} />
         </View>
     )
 }
