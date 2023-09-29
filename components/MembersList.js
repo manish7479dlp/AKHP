@@ -92,6 +92,8 @@ const DATA = [
 const MembersList = ({ mb }) => {
     return (
         <View>
+            <Text style={styles.title}>Active Members</Text>
+
             <Title />
             <Details mb={mb} />
         </View>
@@ -150,7 +152,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 5,
         paddingHorizontal: 12,
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
+        borderTopWidth: 1,
+        marginTop: 10
     },
     titleName: {
         fontWeight: "600",
@@ -168,6 +172,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: color.second,
         fontWeight: '700'
+    },
+    title: {
+        fontWeight: "600",
+        color: color.first,
+        fontSize: 20,
+        textAlign: 'center'
     }
 
 })

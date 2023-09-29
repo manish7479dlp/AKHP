@@ -16,23 +16,14 @@ const UserHome = () => {
             <View style={styles.container}>
                 <UserData />
                 <MealDetails title={"Today Meal"} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} />
-                <Member />
+                <MembersList mb={height * .5} />
+
 
             </View>
         </SafeAreaView>
     )
 }
 
-
-
-const Member = () => {
-    return (
-        <View style={styles.memberContainer}>
-            <Text style={styles.title}>Active Members</Text>
-            <MembersList mb={height * .572} />
-        </View>
-    )
-}
 
 export default UserHome
 
@@ -41,14 +32,5 @@ const styles = StyleSheet.create({
         height: height,
         width: width,
         // backgroundColor: color.third
-    },
-    title: {
-        fontWeight: "600",
-        color: color.first,
-        fontSize: 20,
-        paddingLeft: 15
-    },
-    memberContainer: {
-        backgroundColor: color.background,
     }
 })
