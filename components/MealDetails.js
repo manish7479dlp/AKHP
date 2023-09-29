@@ -12,13 +12,13 @@ const MealDetails = ({ title, lunchMeal, dinnerMeal }) => {
                     <Text style={{ color: "white", fontWeight: "500" }}>
                         <Feather name="sun" size={20} color="white" />  Lunch :
                     </Text>
-                    <Text style={{ color: "white", fontWeight: "450" }}>{lunchMeal}</Text>
+                    <Text style={{ color: "white", fontWeight: "400" }}>{lunchMeal}</Text>
                 </View>
                 <View style={styles.meal}>
                     <Text style={{ color: "white", fontWeight: "500" }}>
                         <Ionicons name="cloudy-night-outline" size={20} color={"white"} />  Dinner :
                     </Text>
-                    <Text style={{ color: "white", fontWeight: "450" }}>{dinnerMeal}</Text>
+                    <Text style={{ color: "white", fontWeight: "400" }}>{dinnerMeal}</Text>
                 </View>
             </View>
         </View >
