@@ -89,11 +89,11 @@ const DATA = [
     },
 ];
 
-const MembersList = () => {
+const MembersList = ({ mb }) => {
     return (
         <View>
             <Title />
-            <Details />
+            <Details mb={mb} />
         </View>
 
     )
@@ -111,9 +111,9 @@ const Title = () => {
     )
 }
 
-const Details = () => {
+const Details = ({ mb }) => {
     return (
-        <View style={{ height: height * .57 }}>
+        <View style={{ marginBottom: mb }}>
             <FlatList
                 showsVerticalScrollIndicator={false}
                 data={DATA}
