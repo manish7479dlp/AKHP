@@ -1,11 +1,26 @@
-import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { Alert, Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import color from "../constant/color"
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 var { width, height } = Dimensions.get('window');
 
 const Login = () => {
+    const [moibileNumber, setMobileNumber] = useState();
+    const [password, setPassword] = useState();
+    const navigation = useNavigation()
+
+    const handleLogin = () => {
+
+        if (moibileNumber === "1") {
+            navigation.navigate("admin")
+        } else {
+            navigation.navigate("user")
+        }
+
+    }
+
     return (
 
         <SafeAreaView style={{ backgroundColor: "lightgrey" }}>
@@ -20,17 +35,17 @@ const Login = () => {
                             <Text style={styles.label}>
                                 Mobile Number
                             </Text>
-                            <TextInput keyboardType='numeric' style={styles.input} />
+                            <TextInput maxLength={10} onChangeText={number => setMobileNumber(number)} keyboardType='numeric' style={styles.input} />
                         </View>
                         <View style={styles.field}>
                             <Text style={styles.label}>
                                 Password
                             </Text>
-                            <TextInput secureTextEntry={true} style={styles.input} />
+                            <TextInput onChangeText={password => setPassword(password)} secureTextEntry={true} style={styles.input} />
                         </View>
 
                         <View style={styles.button}>
-                            <TouchableOpacity >
+                            <TouchableOpacity onPress={handleLogin}>
                                 <Text style={styles.buttonLabel}>Login</Text>
                             </TouchableOpacity>
                         </View>
