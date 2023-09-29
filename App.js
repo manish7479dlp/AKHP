@@ -1,9 +1,9 @@
 import Login from './screens/Login';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import UserNavigation from './navigation/userNavigation';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import AdminNavigation from './navigation/AdminNavigation';
+import UserNavigation from './navigation/UserNavigation';
 
 
 export default function App() {
