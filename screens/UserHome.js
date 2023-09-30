@@ -15,7 +15,7 @@ const UserHome = () => {
         <SafeAreaView>
             <View style={styles.container}>
                 <UserData />
-                <MealDetails title={"Today Meal"} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} />
+                <MealDetails title={"Today Meal"} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} edit={false} />
                 <MembersList mb={height * .5} />
 
 
