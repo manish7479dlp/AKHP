@@ -7,6 +7,7 @@ import Expences from '../screens/Expences';
 import color from "../constant/color"
 import Member from '../screens/Member';
 import UserHome from "../screens/UserHome"
+import Items from '../screens/Items';
 
 
 const Tab = createBottomTabNavigator();
@@ -36,6 +37,20 @@ const AdminNavigation = () => {
                     }
                 }
             } />
+
+            <Tab.Screen name="Items" component={Items} options={
+                {
+                    headerShown: false,
+                    tabBarLabel: "Items",
+                    tabBarIcon: ({ focused, color, size }) => {
+                        return (
+                            focused ? (<AntDesign name="pluscircle" size={size} color={color} />) : (<AntDesign name="pluscircleo" size={24} color="black" />)
+                        )
+                    }
+                }
+            } />
+
+
 
             <Tab.Screen name="routine" component={Routine} options={
                 {
