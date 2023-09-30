@@ -1,12 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Entypo, Fontisto, MaterialIcons, FontAwesome, FontAwesome5, Ionicons } from '@expo/vector-icons';
 
-import AdminHome from '../screens/AdminHome';
 import Routine from '../screens/Routine';
 import Expences from '../screens/Expences';
 
 import color from "../constant/color"
 import Member from '../screens/Member';
+import UserHome from "../screens/UserHome"
 
 
 const Tab = createBottomTabNavigator();
@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 const AdminNavigation = () => {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="Admin" component={AdminHome} options={
+            <Tab.Screen name="Admin" component={UserHome} options={
                 {
                     headerShown: false,
                     tabBarLabel: "Home",
