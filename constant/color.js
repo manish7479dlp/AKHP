@@ -3,5 +3,6 @@ export default color = {
     second: "#176B87",
     third: "#64CCC5",
     background: "#F1EFEF",
-    safeAreaView: "lightgrey"
+    safeAreaView: "lightgrey",
+    layer: "rgba(0,0,0,.6)"
 }
