@@ -15,20 +15,16 @@ const Login = () => {
     const navigation = useNavigation()
 
     const dispatch = useDispatch();
-    const userData = useSelector((state) => state.user.data)
-
-
 
     const handleLogin = async () => {
         const data = await userLogin(mobileNumber);
         dispatch(setUser(data))
 
-        if (userData?.user?.role === 'admin') {
+        if (data?.user?.role === 'admin') {
             navigation.navigate("admin")
-        } else {
+        } else if (data?.user?.role === 'user') {
             navigation.navigate("user")
         }
-
 
     }
 
