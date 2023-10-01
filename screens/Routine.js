@@ -1,16 +1,49 @@
-import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Dimensions, FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import MealDetails from '../components/MealDetails'
 import UserData from '../components/UserData'
+import { getAlltRoutine } from '../Helper/api'
 
 var { width, height } = Dimensions.get('window');
 
 const Routine = () => {
+    const [routine, setRoutine] = useState();
+
+    useEffect(() => {
+
+        const getRoutine = async () => {
+            try {
+                const response = await getAlltRoutine();
+                console.log(response.data)
+                setRoutine(response.data);
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getRoutine();
+
+    }, [])
+
+
+
+
     return (
         <SafeAreaView>
             <UserData />
-            <ScrollView
+            <FlatList style={{ marginBottom: 52 }}
+                data={routine}
+                renderItem={({ item }) => (
+
+                    <MealDetails title={item.day.charAt(0).toUpperCase() + item.day.slice(1)} lunchMeal={item.lunch} dinnerMeal={item.dinner} />
+
+                )}
+                keyExtractor={item => item.name}
+            />
+
+
+            {/* <ScrollView
                 showsVerticalScrollIndicator={false}
                 style={styles.container}
             >
@@ -23,7 +56,7 @@ const Routine = () => {
                 <MealDetails title={"Today Meal"} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} />
                 <MealDetails title={"Today Meal"} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} />
 
-            </ScrollView>
+            </ScrollView> */}
 
         </SafeAreaView>
     )
