@@ -4,7 +4,7 @@ import color from "../constant/color"
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { setUser } from '../store/UserSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../Helper/api';
 
 var { width, height } = Dimensions.get('window');
@@ -15,12 +15,14 @@ const Login = () => {
     const navigation = useNavigation()
 
     const dispatch = useDispatch();
+    const userData = useSelector((state) => state.user.data)
+
 
     const handleLogin = async () => {
         const data = await userLogin(mobileNumber);
         dispatch(setUser(data))
 
-        if (mobileNumber === "1") {
+        if (userData.user.role === 'admin') {
             navigation.navigate("admin")
         } else {
             navigation.navigate("user")
