@@ -3,21 +3,29 @@ import React, { useState } from 'react'
 import color from "../constant/color"
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { setUser } from '../store/UserSlice';
+import { useDispatch } from 'react-redux';
+import { userLogin } from '../Helper/api';
 
 var { width, height } = Dimensions.get('window');
 
 const Login = () => {
-    const [moibileNumber, setMobileNumber] = useState();
+    const [mobileNumber, setMobileNumber] = useState();
     const [password, setPassword] = useState();
     const navigation = useNavigation()
 
-    const handleLogin = () => {
+    const dispatch = useDispatch();
 
-        if (moibileNumber === "1") {
+    const handleLogin = async () => {
+        const data = await userLogin(mobileNumber);
+        dispatch(setUser(data))
+
+        if (mobileNumber === "1") {
             navigation.navigate("admin")
         } else {
             navigation.navigate("user")
         }
+
 
     }
 
