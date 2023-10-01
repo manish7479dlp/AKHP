@@ -21,9 +21,8 @@ const userLogin = async (mobile) => {
     }
 }
 
-const signIn = async (name, year, advance, mobile) => {
-    const URL = BASE_URL + "/api/auth/signin"
-    const { token } = useSelector((state) => state.user.data)
+const createUser = async ({ name, year, advance, mobile, token }) => {
+    const URL = BASE_URL + "/api/auth/signup"
 
     try {
         const response = await fetch(URL, {
@@ -33,7 +32,7 @@ const signIn = async (name, year, advance, mobile) => {
                 'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
-                name: name,
+                fullName: name,
                 year,
                 advance,
                 mobile
@@ -49,7 +48,7 @@ const signIn = async (name, year, advance, mobile) => {
 }
 
 const editUser = async (name, year, advance, mobile) => {
-    const URL = BASE_URL + "/api/auth/signin"
+    const URL = BASE_URL + "/api/v1/user/"
     const { token } = useSelector((state) => state.user.data)
 
     try {
@@ -63,7 +62,7 @@ const editUser = async (name, year, advance, mobile) => {
                 year,
                 advance,
                 mobile,
-                name: name
+                fullName: name
             })
 
         });
@@ -75,8 +74,30 @@ const editUser = async (name, year, advance, mobile) => {
     }
 }
 
-const getRoutine = async () => {
-    const URL = BASE_URL + "/api/auth/login"
+// get all routine
+const getAlltRoutine = async (token) => {
+    const URL = BASE_URL + "/api/v1/routine"
+
+    try {
+        const response = await fetch(URL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        const routine = await response.json();
+        return routine;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// get routine on the basis of day
+const getRoutineDayWise = async () => {
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    const toDay = days[new Date().getDay()]
+    const URL = BASE_URL + "/api/v1/routine/" + toDay
     const { token } = useSelector((state) => state.user.data)
 
     try {
@@ -95,4 +116,25 @@ const getRoutine = async () => {
     }
 }
 
-export { userLogin, getRoutine }
+// edit routine on the basis of id
+const editRoutineById = async (id) => {
+    const URL = BASE_URL + "/api/v1/routine/" + id
+    const { token } = useSelector((state) => state.user.data)
+
+    try {
+        const response = await fetch(URL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        const user = await response.json();
+        console.log(user)
+        return user;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export { userLogin, createUser, editUser, getAlltRoutine, getRoutineDayWise, editRoutineById }
