@@ -1,4 +1,4 @@
-import { Alert, Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Dimensions, ScrollView, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import UserData from '../components/UserData'
@@ -8,6 +8,9 @@ var { width, height } = Dimensions.get('window');
 import { AntDesign } from '@expo/vector-icons';
 
 import color from '../constant/color';
+import { createUser } from '../Helper/api';
+import { useSelector } from 'react-redux';
+import Toast from '../components/Toast';
 
 const EDIT_USER = 'edit'
 const DELETE_USER = 'delete'
@@ -33,14 +36,21 @@ const Member = () => {
     return (
         <SafeAreaView>
             <UserData />
-            <SearchBar />
-            <View style={styles.iconContainer}>
-                <FilterButton iconName={ADD_USER} handleOperation={handleOperation} />
-                <FilterButton iconName={EDIT_USER} handleOperation={handleOperation} />
-                <FilterButton iconName={DELETE_USER} handleOperation={handleOperation} />
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={{ marginBottom: height * .07 }}
+            >
+                <SearchBar />
+                <View style={styles.iconContainer}>
+                    <FilterButton iconName={ADD_USER} handleOperation={handleOperation} />
+                    <FilterButton iconName={EDIT_USER} handleOperation={handleOperation} />
+                    <FilterButton iconName={DELETE_USER} handleOperation={handleOperation} />
 
-            </View>
-            <UserOperation title={userOperation} btnTitle={userOperation} />
+                </View>
+
+                <UserOperation title={userOperation} btnTitle={userOperation} />
+            </ScrollView>
+
         </SafeAreaView>
     )
 }
@@ -66,13 +76,30 @@ const FilterButton = ({ iconName, handleOperation }) => {
 }
 
 const UserOperation = ({ title, btnTitle }) => {
-
-    const [moibileNumber, setMobileNumber] = useState();
+    const [name, setName] = useState();
+    const [mobile, setMobile] = useState();
     const [year, setYear] = useState();
-    const [payment, setPayment] = useState();
+    const [advance, setAdvance] = useState();
+    const userData = useSelector((state) => state.user.data)
+    const [loading, setLoading] = useState(false);
 
-    const addUser = () => {
-        Alert.alert(moibileNumber + " " + year + " " + payment)
+    const addUser = async () => {
+        try {
+            setLoading(true);
+            const token = userData.token
+            const response = await createUser({ name, mobile, year, advance, token })
+
+            Toast(response.message, x = 0, y = 190)
+            setName("");
+            setMobile("")
+            setYear("")
+            setAdvance("")
+            console.log(response)
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            console.log(error)
+        }
     }
     return (
         <View style={styles.container}>
@@ -80,9 +107,15 @@ const UserOperation = ({ title, btnTitle }) => {
             <View style={styles.content}>
                 <View style={styles.field}>
                     <Text style={styles.label}>
+                        Name
+                    </Text>
+                    <TextInput maxLength={25} value={name} onChangeText={name => setName(name)} style={styles.input} />
+                </View>
+                <View style={styles.field}>
+                    <Text style={styles.label}>
                         Mobile Number
                     </Text>
-                    <TextInput maxLength={10} value={moibileNumber} onChangeText={number => setMobileNumber(number)} keyboardType='numeric' style={styles.input} />
+                    <TextInput maxLength={10} value={mobile} onChangeText={number => setMobile(number)} keyboardType='numeric' style={styles.input} />
                 </View>
                 <View style={styles.field}>
                     <Text style={styles.label}>
@@ -92,9 +125,9 @@ const UserOperation = ({ title, btnTitle }) => {
                 </View>
                 <View style={styles.field}>
                     <Text style={styles.label}>
-                        Payment
+                        Advance
                     </Text>
-                    <TextInput value={payment} onChangeText={payment => setPayment(payment)} keyboardType='numeric' style={styles.input} />
+                    <TextInput value={advance} onChangeText={advance => setAdvance(advance)} keyboardType='numeric' style={styles.input} />
                 </View>
 
                 <View style={styles.button}>
