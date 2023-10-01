@@ -1,14 +1,21 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import { useSelector } from 'react-redux';
 
 const UserData = () => {
+    const userData = useSelector((state) => state.user.data)
+    console.log(userData.user.fullName)
+
+    const logout = () => {
+        Alert.alert("This Featue is not implemented Yet..")
+    }
+
     return (
         <View style={styles.userContainer}>
-            <Text style={styles.userName}>Hey, Manish</Text>
-            <TouchableOpacity>
-                <MaterialCommunityIcons name="logout" size={24} color={color.first} />
+            <Text style={styles.userName}>Hey, {userData.user.fullName.split(" ")[0]}</Text>
+            <TouchableOpacity >
+                <MaterialCommunityIcons onPress={logout} name="logout" size={24} color={color.first} />
             </TouchableOpacity>
         </View>
     )
