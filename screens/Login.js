@@ -1,5 +1,5 @@
 import { Alert, Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import color from "../constant/color"
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -18,11 +18,12 @@ const Login = () => {
     const userData = useSelector((state) => state.user.data)
 
 
+
     const handleLogin = async () => {
         const data = await userLogin(mobileNumber);
         dispatch(setUser(data))
 
-        if (userData.user.role === 'admin') {
+        if (userData?.user?.role === 'admin') {
             navigation.navigate("admin")
         } else {
             navigation.navigate("user")
