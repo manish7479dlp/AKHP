@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 
 const UserData = () => {
     const userData = useSelector((state) => state.user.data)
-    console.log(userData.user.fullName)
 
     const logout = () => {
         Alert.alert("This Featue is not implemented Yet..")
