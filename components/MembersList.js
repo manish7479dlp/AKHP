@@ -1,95 +1,14 @@
-import { Dimensions, FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Dimensions, FlatList, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
 import color from '../constant/color';
+import { getAllUser } from '../Helper/api';
 
 var { width, height } = Dimensions.get('window');
 
 
-const DATA = [
-    {
-        id: 0,
-        title: "zero Item"
-    },
-    {
-        id: 1,
-        title: 'First Item',
-    },
-    {
-        id: 2,
-        title: 'Second Item',
-    },
-    {
-        id: 3,
-        title: 'Third Item',
-    }, {
-        id: 4,
-        title: "zero Item"
-    },
-    {
-        id: 5,
-        title: 'First Item',
-    },
-    {
-        id: 6,
-        title: 'Second Item',
-    },
-    {
-        id: 7,
-        title: 'Third Item',
-    },
-    {
-        id: 8,
-        title: "zero Item"
-    },
-    {
-        id: 9,
-        title: 'First Item',
-    },
-    {
-        id: 10,
-        title: 'Second Item',
-    },
-    {
-        id: 11,
-        title: 'Third Item',
-    }, {
-        id: 12,
-        title: "zero Item"
-    },
-    {
-        id: 13,
-        title: 'First Item',
-    },
-    {
-        id: 14,
-        title: 'Second Item',
-    },
-    {
-        id: 15,
-        title: 'Third Item',
-    },
-    {
-        id: 111,
-        title: 'Third Item',
-    }, {
-        id: 122,
-        title: "zero Item"
-    },
-    {
-        id: 133,
-        title: 'First Item',
-    },
-    {
-        id: 144,
-        title: 'Second Item',
-    },
-    {
-        id: 155,
-        title: 'Third Item',
-    },
-];
-
 const MembersList = ({ mb }) => {
+
+
     return (
         <View>
             <Text style={styles.title}>Active Members</Text>
@@ -114,27 +33,55 @@ const Title = () => {
 }
 
 const Details = ({ mb }) => {
+    const [members, setMembers] = useState()
+    const [routine, setRoutine] = useState();
+    const [refreshing, setRefreshing] = React.useState(false);
+    useState(() => {
+        const getMembers = async () => {
+            try {
+                const response = await getAllUser();
+                console.log(response.data.length)
+                setMembers(response.data)
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getMembers()
+    }, [refreshing])
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    }, []);
+
     return (
         <View style={{ marginBottom: mb }}>
             <FlatList
                 showsVerticalScrollIndicator={false}
-                data={DATA}
+                data={members}
                 renderItem={({ item }) => {
-                    var bgColor = item.id % 2 === 1 ? color.background : "white"
+                    var bgColor = item.idx % 2 === 1 ? color.background : "white"
                     return (
                         <View style={{ backgroundColor: bgColor }} >
                             <View style={styles.dataContainer} >
-                                <Text style={styles.data}>{item.id + 1}</Text>
-                                <Text style={styles.data}>Manish</Text>
-                                <Text style={styles.data}>4th</Text>
-                                <Text style={styles.data}>1000</Text>
+                                <Text style={styles.data}>{item.idx + 1}</Text>
+                                <Text style={styles.data}>{item.firstName}</Text>
+                                <Text style={styles.data}>{item.year}</Text>
+                                <Text style={styles.data}>{item.advance}</Text>
 
                             </View>
                         </View>
                     )
                 }}
 
-                key={DATA.title}
+                keyExtractor={item => item.idx}
+
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
             />
         </View>
 
@@ -165,13 +112,17 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         padding: 8,
         // backgroundColor: idx % 2 === 0 ? color.third : null
     },
     data: {
         fontSize: 16,
         color: color.second,
-        fontWeight: '700'
+        fontWeight: '700',
+        // backgroundColor: "red",
+        width: 100,
+        // textAlign: 'start'
     },
     title: {
         fontWeight: "600",
