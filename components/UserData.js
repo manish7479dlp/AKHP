@@ -12,7 +12,7 @@ const UserData = () => {
 
     return (
         <View style={styles.userContainer}>
-            <Text style={styles.userName}>Hey, {userData.user.fullName.split(" ")[0]}</Text>
+            <Text style={styles.userName}>Hey, {userData.data.fullName.split(" ")[0]}</Text>
             <TouchableOpacity >
                 <MaterialCommunityIcons onPress={logout} name="logout" size={24} color={color.first} />
             </TouchableOpacity>
