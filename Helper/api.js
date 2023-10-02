@@ -21,6 +21,27 @@ const userLogin = async (mobile) => {
     }
 }
 
+// get user details on the basis of mobile numer
+const getUserByMobile = async (mobile, token) => {
+    const URL = BASE_URL + "/api/v1/user/" + mobile
+    try {
+        const response = await fetch(URL, {
+            method: 'Get',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+
+        });
+        const user = await response.json();
+        console.log(user)
+        return user;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// create user 
 const createUser = async ({ name, year, advance, mobile, token }) => {
     const URL = BASE_URL + "/api/auth/signup"
 
@@ -47,13 +68,13 @@ const createUser = async ({ name, year, advance, mobile, token }) => {
     }
 }
 
-const editUser = async (name, year, advance, mobile) => {
-    const URL = BASE_URL + "/api/v1/user/"
-    const { token } = useSelector((state) => state.user.data)
+// edit user by mobile number
+const editUser = async ({ name, year, advance, mobile, token }) => {
+    const URL = BASE_URL + "/api/v1/user/" + mobile
 
     try {
         const response = await fetch(URL, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -64,6 +85,27 @@ const editUser = async (name, year, advance, mobile) => {
                 mobile,
                 fullName: name
             })
+
+        });
+        const user = await response.json();
+        console.log(user)
+        return user;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// delete user by mobile number
+const deleteUser = async ({ mobile, token }) => {
+    const URL = BASE_URL + "/api/v1/user/" + mobile
+
+    try {
+        const response = await fetch(URL, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
 
         });
         const user = await response.json();
@@ -137,4 +179,4 @@ const editRoutineById = async (id) => {
     }
 }
 
-export { userLogin, createUser, editUser, getAlltRoutine, getRoutineDayWise, editRoutineById }
+export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile }
