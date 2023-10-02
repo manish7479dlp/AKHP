@@ -136,11 +136,10 @@ const getAlltRoutine = async (token) => {
 }
 
 // get routine on the basis of day
-const getRoutineDayWise = async () => {
+const getRoutineDayWise = async (token) => {
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     const toDay = days[new Date().getDay()]
     const URL = BASE_URL + "/api/v1/routine/" + toDay
-    const { token } = useSelector((state) => state.user.data)
 
     try {
         const response = await fetch(URL, {
