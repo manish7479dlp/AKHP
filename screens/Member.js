@@ -1,5 +1,5 @@
 import { Alert, Dimensions, ScrollView, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import UserData from '../components/UserData'
 import { MaterialIcons } from '@expo/vector-icons';
@@ -8,7 +8,7 @@ var { width, height } = Dimensions.get('window');
 import { AntDesign } from '@expo/vector-icons';
 
 import color from '../constant/color';
-import { createUser } from '../Helper/api';
+import { createUser, editUser, getUserByMobile } from '../Helper/api';
 import { useSelector } from 'react-redux';
 import Toast from '../components/Toast';
 
@@ -18,6 +18,7 @@ const ADD_USER = 'adduser'
 
 const Member = () => {
     const [userOperation, setUserOperation] = useState("Add User");
+    const [searchInput, setSearchInput] = useState();
 
     const handleOperation = (operation) => {
         switch (operation) {
@@ -40,7 +41,7 @@ const Member = () => {
                 showsVerticalScrollIndicator={false}
                 style={{ marginBottom: height * .07 }}
             >
-                <SearchBar />
+                <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} />
                 <View style={styles.iconContainer}>
                     <FilterButton iconName={ADD_USER} handleOperation={handleOperation} />
                     <FilterButton iconName={EDIT_USER} handleOperation={handleOperation} />
@@ -48,26 +49,30 @@ const Member = () => {
 
                 </View>
 
-                <UserOperation title={userOperation} btnTitle={userOperation} />
+                <UserOperation title={userOperation} btnTitle={userOperation} searchInput={searchInput} setSearchInput={setSearchInput} />
             </ScrollView>
 
         </SafeAreaView>
     )
 }
 
-const SearchBar = () => {
+const SearchBar = ({ searchInput, setSearchInput }) => {
     return (
         <View style={styles.searchContainer}>
             <MaterialIcons style={{ marginLeft: 15 }} name="person-search" size={34} color={color.second} />
             <TextInput placeholder="Search"
                 placeholderTextColor="grey"
                 keyboardType="name-phone-pad" style={styles.searchInput}
-                maxLength={20} />
+                maxLength={20}
+                value={searchInput}
+                onChangeText={search => setSearchInput(search)}
+            />
         </View>
     )
 }
 
 const FilterButton = ({ iconName, handleOperation }) => {
+
     return (
         <TouchableOpacity onPress={() => handleOperation(iconName)} style={styles.filterBtnContainer}>
             <AntDesign name={iconName} size={30} color={"white"} />
@@ -75,7 +80,7 @@ const FilterButton = ({ iconName, handleOperation }) => {
     )
 }
 
-const UserOperation = ({ title, btnTitle }) => {
+const UserOperation = ({ title, btnTitle, searchInput, setSearchInput }) => {
     const [name, setName] = useState();
     const [mobile, setMobile] = useState();
     const [year, setYear] = useState();
@@ -83,24 +88,73 @@ const UserOperation = ({ title, btnTitle }) => {
     const userData = useSelector((state) => state.user.data)
     const [loading, setLoading] = useState(false);
 
-    const addUser = async () => {
+    useEffect(() => {
+        if (title === "Add User") {
+            makeStateBlank()
+            console.log(("add"))
+        } else if (title === "Edit") {
+            makeStateBlank()
+            getUserDetailByMobileNumber()
+        } else if (title === "Delete") {
+            makeStateBlank()
+            getUserDetailByMobileNumber()
+
+        }
+    }, [title])
+
+    const makeStateBlank = () => {
+        setMobile("")
+        setName("")
+        setYear("")
+        setAdvance("")
+    }
+
+
+    const getUserDetailByMobileNumber = async () => {
+        try {
+            const token = userData.token
+            setLoading(true)
+            const response = await getUserByMobile(searchInput, token)
+            if (response.status) {
+                const { mobile, fullName, year, advance } = response?.data
+                setMobile(mobile + ""),
+                    setName(fullName)
+                setYear(year)
+                setAdvance(advance ? advance + "" : "0")
+            }
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            console.log(error)
+        }
+    }
+    const userCURD = async (title) => {
         try {
             setLoading(true);
+            var response;
             const token = userData.token
-            const response = await createUser({ name, mobile, year, advance, token })
 
-            Toast(response.message, x = 0, y = 190)
-            setName("");
-            setMobile("")
-            setYear("")
-            setAdvance("")
-            console.log(response)
+            if (title === 'Add User') {
+                response = await createUser({ name, mobile, year, advance, token })
+            } else if (title === 'Edit') {
+                response = await editUser({ name, mobile, year, advance, token })
+            } else if (title === 'Delete') {
+
+            }
+
+            if (response.status) {
+                Toast(response?.message, x = 0, y = 190)
+                makeStateBlank()
+            }
+
             setLoading(false);
         } catch (error) {
             setLoading(false);
             console.log(error)
         }
     }
+
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
@@ -131,8 +185,8 @@ const UserOperation = ({ title, btnTitle }) => {
                 </View>
 
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={addUser}>
-                        <Text style={styles.buttonLabel}>{btnTitle}</Text>
+                    <TouchableOpacity onPress={() => userCURD(title)} disabled={loading}>
+                        <Text style={styles.buttonLabel}>{loading ? "Please wait..." : btnTitle}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -190,7 +244,8 @@ const styles = StyleSheet.create({
         marginTop: 8,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingBottom: 50
     },
     field: {
         padding: 8,
@@ -218,7 +273,7 @@ const styles = StyleSheet.create({
     buttonLabel: {
         color: 'white',
         textAlign: "center",
-        width: 120,
+        width: 150,
         padding: 10,
         borderRadius: 8,
         backgroundColor: color.second,
