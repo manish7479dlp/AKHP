@@ -21,6 +21,29 @@ const userLogin = async (mobile) => {
     }
 }
 
+const getAllUser = async () => {
+    const URL = BASE_URL + "/api/v1/user"
+    try {
+        const response = await fetch(URL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // "Authorization": `Bearer ${token}`
+            }
+        })
+        const user = await response.json()
+        for (let i = 0; i < user.data.length; i++) {
+            user.data[i].idx = i
+            // console.log(user.data[i])
+        }
+        return user
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
 // get user details on the basis of mobile numer
 const getUserByMobile = async (mobile, token) => {
     const URL = BASE_URL + "/api/v1/user/" + mobile
@@ -150,7 +173,7 @@ const getRoutineDayWise = async (token) => {
             }
         });
         const user = await response.json();
-        console.log(user)
+        // console.log(user)
         return user;
     } catch (error) {
         console.log(error)
@@ -182,4 +205,4 @@ const editRoutineById = async ({ id, token, lunch, dinner, day }) => {
     }
 }
 
-export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile }
+export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser }
