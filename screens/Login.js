@@ -1,4 +1,4 @@
-import { Alert, Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Dimensions, Image, ScrollView, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import color from "../constant/color"
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,24 +6,37 @@ import { useNavigation } from '@react-navigation/native';
 import { setUser } from '../store/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../Helper/api';
-
 var { width, height } = Dimensions.get('window');
+
 
 const Login = () => {
     const [mobileNumber, setMobileNumber] = useState();
     const [password, setPassword] = useState();
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
+    const [admin, setAdmin] = useState(false)
     const navigation = useNavigation()
 
     const dispatch = useDispatch();
 
     const handleLogin = async () => {
-        const data = await userLogin(mobileNumber);
-        dispatch(setUser(data))
-
-        if (data?.user?.role === 'admin') {
-            navigation.navigate("admin")
-        } else if (data?.user?.role === 'user') {
-            navigation.navigate("user")
+        try {
+            if (mobileNumber.length !== 10) {
+                setError("Invalid Mobile Number")
+                return
+            }
+            setLoading(true)
+            const data = await userLogin(mobileNumber);
+            dispatch(setUser(data))
+            if (data?.data?.role === 'admin') {
+                navigation.navigate("admin")
+            } else if (data?.data?.role === 'user') {
+                navigation.navigate("user")
+            }
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            console.log(error)
         }
 
     }
@@ -31,38 +44,68 @@ const Login = () => {
     return (
 
         <SafeAreaView style={{ backgroundColor: "lightgrey" }}>
-            <View style={styles.container}>
-                <View style={styles.wrapper}>
-                    <View style={styles.heroBanner}>
-                        <Image style={{ width: "100%", height: '100%', resizeMode: 'center' }} source={require("../assets/hero.png")} />
-                    </View>
-                    <Text style={styles.title}>Login</Text>
-                    <View style={styles.content}>
-                        <View style={styles.field}>
-                            <Text style={styles.label}>
-                                Mobile Number
-                            </Text>
-                            <TextInput maxLength={10} onChangeText={number => setMobileNumber(number)} keyboardType='numeric' style={styles.input} />
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+            >
+                <View style={styles.container}>
+                    <View style={styles.wrapper}>
+                        <View style={styles.heroBanner}>
+                            <Image style={{ width: "100%", height: '100%', resizeMode: 'center' }} source={require("../assets/hero.png")} />
                         </View>
-                        <View style={styles.field}>
-                            <Text style={styles.label}>
-                                Password
-                            </Text>
-                            <TextInput onChangeText={password => setPassword(password)} secureTextEntry={true} style={styles.input} />
+                        <Text style={styles.title}>Login</Text>
+                        <View style={styles.content}>
+                            <View style={styles.field}>
+                                <Text style={styles.label}>
+                                    Mobile Number
+                                </Text>
+                                {
+                                    error && (<Text style={{ color: "red", marginBottom: 4, marginTop: -10 }}>{error}</Text>)
+                                }
+                                <TextInput maxLength={10} onChangeText={number => setMobileNumber(number)} keyboardType='numeric' style={styles.input} />
+                            </View>
+
+                            <View style={styles.field} >
+                                <Text style={styles.label}>
+                                    Admin
+                                </Text>
+                                <View style={{ display: "flex", flexDirection: 'row', justifyContent: 'flex-start', marginVertical: -16 }}>
+                                    <Switch
+                                        value={admin}
+                                        onValueChange={(value) => setAdmin(value)}
+                                        trackColor={{ false: color.third, true: color.layer }}
+                                        thumbColor={admin ? color.second : '#f4f3f4'}
+
+                                    />
+                                </View>
+
+                            </View>
+
+                            {
+                                admin && (
+
+                                    <View style={styles.field} >
+                                        <Text style={styles.label}>
+                                            Password
+                                        </Text>
+                                        <TextInput onChangeText={password => setPassword(password)} secureTextEntry={true} style={styles.input} />
+                                    </View>
+
+                                )}
+
+                            <View style={styles.button}>
+                                <TouchableOpacity onPress={handleLogin} disabled={loading}>
+                                    <Text style={styles.buttonLabel}>{loading ? "Please wait..." : "Login"}</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
 
-                        <View style={styles.button}>
-                            <TouchableOpacity onPress={handleLogin}>
-                                <Text style={styles.buttonLabel}>Login</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <Text style={styles.messName}>Aao Kabhi Haveli Pe</Text>
+
                     </View>
-                    <Text style={styles.messName}>Aao Kabhi Haveli Pe</Text>
+
 
                 </View>
-
-
-            </View>
+            </ScrollView>
         </SafeAreaView>
 
     )
@@ -133,8 +176,8 @@ const styles = StyleSheet.create({
     buttonLabel: {
         color: 'white',
         textAlign: "center",
-        width: 100,
         padding: 10,
+        paddingHorizontal: 15,
         borderRadius: 8,
         backgroundColor: color.second,
         fontSize: 18,
