@@ -1,13 +1,14 @@
 import { Alert, Button, Dimensions, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons, Feather } from '@expo/vector-icons';
+import { editRoutineBy, editRoutineById } from "../Helper/api"
 
 import color from "../constant/color"
 var { width, height } = Dimensions.get('window');
 
 
 
-const MealDetails = ({ title, lunchMeal, dinnerMeal, edit = true }) => {
+const MealDetails = ({ id, title, lunchMeal, dinnerMeal, edit = true }) => {
     const [isModalVisible, setIsModalVisible] = useState(false)
     const editMealDetails = () => {
         setIsModalVisible(true);
@@ -49,7 +50,7 @@ const MealDetails = ({ title, lunchMeal, dinnerMeal, edit = true }) => {
 
                 <View style={styles.editMealContainer}>
                     {/* <Text style={{ backgroundColor: "green", padding: 10, color: "white", fontWeight: '700' }}>hlw from the other side...</Text> */}
-                    <EditRoutine setIsModalVisible={setIsModalVisible} />
+                    <EditRoutine lunchMeal={lunchMeal} dinnerMeal={dinnerMeal} title={title} id={id} setIsModalVisible={setIsModalVisible} />
                     {/* <Button title="close" onPress={() => setIsModalVisible(false)} /> */}
                 </View>
 
@@ -59,34 +60,42 @@ const MealDetails = ({ title, lunchMeal, dinnerMeal, edit = true }) => {
     )
 }
 
-const EditRoutine = ({ setIsModalVisible }) => {
-    const [moibileNumber, setMobileNumber] = useState();
-    const [password, setPassword] = useState();
+const EditRoutine = ({ setIsModalVisible, title, id, lunchMeal, dinnerMeal }) => {
+    const [lunch, setLunch] = useState(lunchMeal);
+    const [dinner, setDinner] = useState(dinnerMeal);
 
-    const handleLogin = () => {
+    const update = async () => {
+        try {
+            const day = title.toLowerCase()
 
+            const response = await editRoutineById({ id, lunch, dinner, day })
+            console.log(response)
 
+            setIsModalVisible(false)
+        } catch (error) {
+            console.log(error)
+        }
 
     }
     return (
         <View style={styles.editRoutineContainer}>
-            <Text style={styles.title}>Monday</Text>
+            <Text style={styles.title}>{title}</Text>
             <View style={styles.content}>
                 <View style={styles.field}>
                     <Text style={styles.label}>
                         Lunch
                     </Text>
-                    <TextInput maxLength={30} onChangeText={number => setMobileNumber(number)} style={styles.input} />
+                    <TextInput value={lunch} onChangeText={text => setLunch(text)} style={styles.input} />
                 </View>
                 <View style={styles.field}>
                     <Text style={styles.label}>
                         Dinner
                     </Text>
-                    <TextInput maxLength={30} onChangeText={password => setPassword(password)} secureTextEntry={true} style={styles.input} />
+                    <TextInput value={dinner} onChangeText={text => setDinner(text)} style={styles.input} />
                 </View>
 
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={() => setIsModalVisible(false)} >
+                    <TouchableOpacity onPress={update} >
                         <Text style={styles.buttonLabel}>Update</Text>
                     </TouchableOpacity>
                 </View>
@@ -118,6 +127,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
         padding: 5
     },
 
