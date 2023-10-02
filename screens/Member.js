@@ -8,7 +8,7 @@ var { width, height } = Dimensions.get('window');
 import { AntDesign } from '@expo/vector-icons';
 
 import color from '../constant/color';
-import { createUser, editUser, getUserByMobile } from '../Helper/api';
+import { createUser, deleteUser, editUser, getUserByMobile } from '../Helper/api';
 import { useSelector } from 'react-redux';
 import Toast from '../components/Toast';
 
@@ -121,6 +121,9 @@ const UserOperation = ({ title, btnTitle, searchInput, setSearchInput }) => {
                     setName(fullName)
                 setYear(year)
                 setAdvance(advance ? advance + "" : "0")
+            } else {
+                Toast(response?.message, x = 0, y = 190)
+
             }
             setLoading(false)
         } catch (error) {
@@ -139,13 +142,13 @@ const UserOperation = ({ title, btnTitle, searchInput, setSearchInput }) => {
             } else if (title === 'Edit') {
                 response = await editUser({ name, mobile, year, advance, token })
             } else if (title === 'Delete') {
-
+                response = await deleteUser({ mobile, token })
             }
 
-            if (response.status) {
-                Toast(response?.message, x = 0, y = 190)
-                makeStateBlank()
-            }
+            // if (response.status) {
+            //     makeStateBlank()
+            // }
+            // Toast(response?.message, x = 0, y = 190)
 
             setLoading(false);
         } catch (error) {
@@ -237,7 +240,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontWeight: '600',
-        fontSize: 25,
+        fontSize: 50,
         color: color.second
     },
     content: {
