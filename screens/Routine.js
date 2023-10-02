@@ -15,7 +15,6 @@ const Routine = () => {
         const getRoutine = async () => {
             try {
                 const response = await getAlltRoutine();
-                console.log(response.data)
                 setRoutine(response.data);
 
             } catch (error) {
@@ -39,7 +38,7 @@ const Routine = () => {
                     <MealDetails title={item.day.charAt(0).toUpperCase() + item.day.slice(1)} lunchMeal={item.lunch} dinnerMeal={item.dinner} />
 
                 )}
-                keyExtractor={item => item.name}
+                keyExtractor={item => item.day}
             />
 
 
