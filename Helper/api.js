@@ -158,9 +158,8 @@ const getRoutineDayWise = async (token) => {
 }
 
 // edit routine on the basis of id
-const editRoutineById = async (id) => {
+const editRoutineById = async ({ id, token, lunch, dinner, day }) => {
     const URL = BASE_URL + "/api/v1/routine/" + id
-    const { token } = useSelector((state) => state.user.data)
 
     try {
         const response = await fetch(URL, {
@@ -168,7 +167,12 @@ const editRoutineById = async (id) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
-            }
+            },
+            body: JSON.stringify({
+                day,
+                lunch,
+                dinner
+            })
         });
         const user = await response.json();
         console.log(user)
