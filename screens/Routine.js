@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, FlatList, ScrollView, StyleSheet, Text, View, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import MealDetails from '../components/MealDetails'
@@ -9,6 +9,7 @@ var { width, height } = Dimensions.get('window');
 
 const Routine = () => {
     const [routine, setRoutine] = useState();
+    const [refreshing, setRefreshing] = React.useState(false);
 
     useEffect(() => {
 
@@ -22,8 +23,16 @@ const Routine = () => {
             }
         }
         getRoutine();
+    }, [refreshing])
 
-    }, [])
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    }, []);
+
 
 
 
@@ -32,6 +41,7 @@ const Routine = () => {
         <SafeAreaView>
             <UserData />
             <FlatList style={{ marginBottom: 52 }}
+                showsVerticalScrollIndicator={false}
                 data={routine}
                 renderItem={({ item }) => (
 
@@ -39,23 +49,12 @@ const Routine = () => {
 
                 )}
                 keyExtractor={item => item.day}
+
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+
             />
-
-
-            {/* <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={styles.container}
-            >
-                <MealDetails title={"Monday "} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} />
-                <MealDetails title={"Tuesday"} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} />
-                <MealDetails title={"Today Meal"} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} />
-
-                <MealDetails title={"Today Meal"} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} />
-                <MealDetails title={"Today Meal"} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} />
-                <MealDetails title={"Today Meal"} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} />
-                <MealDetails title={"Today Meal"} lunchMeal={"Chawal Dal Egg Curry"} dinnerMeal={"Chawal Dal Aalu Sabji"} />
-
-            </ScrollView> */}
 
         </SafeAreaView>
     )
