@@ -7,34 +7,40 @@ import UserNavigation from './navigation/UserNavigation';
 import { Provider } from 'react-redux';
 import Store from "./store/Store.js"
 import { Text, View } from 'react-native';
+import DevSection from './screens/DevSection';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Provider store={Store}>
-      <SafeAreaProvider >
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen options={{
-              headerShown: false
-            }} name='login' component={Login} />
+    // <Provider store={Store}>
+    //   <SafeAreaProvider >
+    //     <NavigationContainer>
+    //       <Stack.Navigator>
+    //         <Stack.Screen options={{
+    //           headerShown: false
+    //         }} name='login' component={Login} />
 
-            <Stack.Screen options={{
-              headerShown: false,
-              animation: 'slide_from_right'
-            }} name='user' component={UserNavigation} />
+    //         <Stack.Screen options={{
+    //           headerShown: false,
+    //           animation: 'slide_from_right'
+    //         }} name='user' component={UserNavigation} />
 
-            <Stack.Screen options={{
-              headerShown: false,
-              animation: 'slide_from_right'
-            }} name='admin' component={AdminNavigation} />
-          </Stack.Navigator>
+    //         <Stack.Screen options={{
+    //           headerShown: false,
+    //           animation: 'slide_from_right'
+    //         }} name='admin' component={AdminNavigation} />
+    //       </Stack.Navigator>
 
-        </NavigationContainer>
+    //     </NavigationContainer>
 
-      </SafeAreaProvider>
-    </Provider>
+    //   </SafeAreaProvider>
+    // </Provider>
+
+    <SafeAreaProvider>
+      <DevSection />
+
+    </SafeAreaProvider>
 
 
   )
