@@ -4,6 +4,7 @@ import { Ionicons, Feather } from '@expo/vector-icons';
 import { editRoutineBy, editRoutineById } from "../Helper/api"
 
 import color from "../constant/color"
+import { useSelector } from 'react-redux';
 var { width, height } = Dimensions.get('window');
 
 
@@ -63,12 +64,15 @@ const MealDetails = ({ id, title, lunchMeal, dinnerMeal, edit = true }) => {
 const EditRoutine = ({ setIsModalVisible, title, id, lunchMeal, dinnerMeal }) => {
     const [lunch, setLunch] = useState(lunchMeal);
     const [dinner, setDinner] = useState(dinnerMeal);
+    const userData = useSelector((state) => state.user.data)
+
 
     const update = async () => {
         try {
+            const token = userData.token
             const day = title.toLowerCase()
 
-            const response = await editRoutineById({ id, lunch, dinner, day })
+            const response = await editRoutineById({ id, lunch, dinner, day, token })
             console.log(response)
 
             setIsModalVisible(false)
