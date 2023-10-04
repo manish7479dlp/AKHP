@@ -7,6 +7,7 @@ import UserNavigation from './navigation/UserNavigation';
 import { Provider } from 'react-redux';
 import Store from "./store/Store.js"
 import { Text, View } from 'react-native';
+import Developer from './screens/Developer';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -29,6 +30,11 @@ export default function App() {
               headerShown: false,
               animation: 'slide_from_right'
             }} name='admin' component={AdminNavigation} />
+
+            <Stack.Screen options={{
+              headerShown: false,
+              animation: 'slide_from_right'
+            }} name='devloper' component={Developer} />
           </Stack.Navigator>
 
         </NavigationContainer>

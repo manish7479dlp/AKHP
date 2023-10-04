@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { setUser } from '../store/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { userLogin } from '../Helper/api';
 var { width, height } = Dimensions.get('window');
 
@@ -21,12 +22,15 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            if (mobileNumber.length !== 10) {
+            if (!mobileNumber || mobileNumber.length !== 10) {
                 setError("Invalid Mobile Number")
                 return
             }
             setLoading(true)
             const data = await userLogin(mobileNumber);
+            if (!data?.status) {
+                setError(data?.message)
+            }
             dispatch(setUser(data))
             if (data?.data?.role === 'admin') {
                 navigation.navigate("admin")
@@ -39,6 +43,10 @@ const Login = () => {
             console.log(error)
         }
 
+    }
+
+    const goDevloperSection = () => {
+        navigation.navigate("devloper")
     }
 
     return (
@@ -97,12 +105,15 @@ const Login = () => {
                                     <Text style={styles.buttonLabel}>{loading ? "Please wait..." : "Login"}</Text>
                                 </TouchableOpacity>
                             </View>
+
                         </View>
 
                         <Text style={styles.messName}>Aao Kabhi Haveli Pe</Text>
 
                     </View>
-
+                    <TouchableOpacity style={styles.dev} onPress={goDevloperSection}>
+                        <FontAwesome5 name="dev" size={30} color="white" />
+                    </TouchableOpacity>
 
                 </View>
             </ScrollView>
@@ -194,5 +205,14 @@ const styles = StyleSheet.create({
         width: width,
         textAlign: 'center'
 
-    }
+    },
+    dev: {
+        backgroundColor: color.first,
+        borderRadius: 5,
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        paddingHorizontal: 8,
+        paddingVertical: 5
+    },
 })
