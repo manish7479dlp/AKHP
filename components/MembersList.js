@@ -2,6 +2,7 @@ import { Dimensions, FlatList, RefreshControl, ScrollView, StyleSheet, Text, Vie
 import React, { useState } from 'react'
 import color from '../constant/color';
 import { getAllUser } from '../Helper/api';
+import { useSelector } from 'react-redux';
 
 var { width, height } = Dimensions.get('window');
 
@@ -36,10 +37,13 @@ const Details = ({ mb }) => {
     const [members, setMembers] = useState()
     const [routine, setRoutine] = useState();
     const [refreshing, setRefreshing] = React.useState(false);
+    const userData = useSelector((state) => state.user.data)
+
     useState(() => {
         const getMembers = async () => {
             try {
-                const response = await getAllUser();
+                const token = userData.token
+                const response = await getAllUser(token);
                 console.log(response.data.length)
                 setMembers(response.data)
 
