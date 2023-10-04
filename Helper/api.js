@@ -21,14 +21,14 @@ const userLogin = async (mobile) => {
     }
 }
 
-const getAllUser = async () => {
+const getAllUser = async (token) => {
     const URL = BASE_URL + "/api/v1/user"
     try {
         const response = await fetch(URL, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                // "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`
             }
         })
         const user = await response.json()
