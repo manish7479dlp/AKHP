@@ -4,18 +4,23 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import MealDetails from '../components/MealDetails'
 import UserData from '../components/UserData'
 import { getAlltRoutine } from '../Helper/api'
+import { useSelector } from 'react-redux';
+
 
 var { width, height } = Dimensions.get('window');
 
 const Routine = () => {
     const [routine, setRoutine] = useState();
     const [refreshing, setRefreshing] = React.useState(false);
+    const userData = useSelector((state) => state.user.data)
+
 
     useEffect(() => {
 
         const getRoutine = async () => {
             try {
-                const response = await getAlltRoutine();
+                const token = userData.token
+                const response = await getAlltRoutine(token);
                 setRoutine(response.data);
 
             } catch (error) {
