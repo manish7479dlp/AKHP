@@ -1,26 +1,38 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View, Linking, TouchableOpacity } from 'react-native'
 import React from 'react'
 import color from '../constant/color'
-import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-// import { AntDesign } from '@expo/vector-icons';
 
 
-const Developer = ({ name, role, }) => {
+const Developer = ({ name, role, instagramLink, githubLink, linkedinLink, img }) => {
     return (
+
         <View style={styles.container}>
             <View style={styles.left}>
-                <Image style={styles.image} source={{ uri: "https://img.lovepik.com/element/40128/7461.png_1200.png" }} />
+                <Image style={styles.image} source={img} />
+
             </View>
             <View style={styles.right}>
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.role}>{role}</Text>
                 <View style={styles.icon}>
-                    {/* <FontAwesome5 name="instagram-square" size={24} color="black" /> */}
-                    <AntDesign name="instagram" size={24} color="black" />
-                    <AntDesign name="github" size={24} color="black" />
-                    <FontAwesome name="linkedin-square" size={24} color="black" />
+
+                    <TouchableOpacity>
+
+                        <FontAwesome onPress={() => Linking.openURL(linkedinLink)} name="linkedin-square" size={24} color="black" />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+
+                        <AntDesign onPress={() => Linking.openURL(githubLink)} name="github" size={24} color="black" />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+                        <AntDesign onPress={() => Linking.openURL(instagramLink)} name="instagram" size={24} color="black" />
+
+                    </TouchableOpacity>
+
                 </View>
             </View>
         </View>
@@ -37,7 +49,8 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 20,
         borderRadius: 20,
-        paddingTop: 20
+        paddingVertical: 20,
+
     },
     left: {
         width: 120,
@@ -58,10 +71,7 @@ const styles = StyleSheet.create({
     },
     right: {
         flex: 1,
-        paddingLeft: 12,
-        padding: 10,
-        paddingRight: 0
-        // borderWidth: 1,
+
     },
     name: {
         color: color.second,
