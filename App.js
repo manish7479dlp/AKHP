@@ -9,38 +9,41 @@ import Store from "./store/Store.js"
 import { Text, View } from 'react-native';
 import DevSection from './screens/DevSection';
 
+
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    // <Provider store={Store}>
-    //   <SafeAreaProvider >
-    //     <NavigationContainer>
-    //       <Stack.Navigator>
-    //         <Stack.Screen options={{
-    //           headerShown: false
-    //         }} name='login' component={Login} />
+    <Provider store={Store}>
+      <SafeAreaProvider >
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen options={{
+              headerShown: false
+            }} name='login' component={Login} />
 
-    //         <Stack.Screen options={{
-    //           headerShown: false,
-    //           animation: 'slide_from_right'
-    //         }} name='user' component={UserNavigation} />
+            <Stack.Screen options={{
+              headerShown: false,
+              animation: 'slide_from_right'
+            }} name='user' component={UserNavigation} />
 
-    //         <Stack.Screen options={{
-    //           headerShown: false,
-    //           animation: 'slide_from_right'
-    //         }} name='admin' component={AdminNavigation} />
-    //       </Stack.Navigator>
 
-    //     </NavigationContainer>
+            <Stack.Screen options={{
+              headerShown: false,
+              animation: 'slide_from_right'
+            }} name='admin' component={AdminNavigation} />
 
-    //   </SafeAreaProvider>
-    // </Provider>
+            <Stack.Screen options={{
+              headerShown: false,
+              animation: 'slide_from_right'
+            }} name='devloper' component={DevSection} />
+          </Stack.Navigator>
 
-    <SafeAreaProvider>
-      <DevSection />
+        </NavigationContainer>
 
-    </SafeAreaProvider>
+      </SafeAreaProvider>
+    </Provider>
+
 
 
   )
