@@ -1,20 +1,36 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import color from "../constant/color"
 import Developer from '../components/Developer'
+import { FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native'
+import DEVELOPER_DATA from "../store/DeveloperData"
 
 const { height, width } = Dimensions.get("window")
 
 const DevSection = () => {
+    const navigation = useNavigation()
+
+    const goToLoginPage = () => {
+        navigation.goBack()
+    }
     return (
         <SafeAreaView >
+            <TouchableOpacity onPress={goToLoginPage} style={styles.navContainer}>
+                <FontAwesome5 name="less-than" size={24} color={color.second} />
+            </TouchableOpacity>
             <View style={styles.container}>
                 <Text style={styles.heading}>Meet The Team</Text>
 
-                <Developer name={"Manish Kumar"} role={"MERN Stack || React-Native Developer"} />
-                <Developer name={"Injamul Md Molla"} role={" Backend Developer"} />
-                <Developer name={"Md Owais Raza"} role={"System Architect"} />
+                <Developer name={DEVELOPER_DATA?.first?.name} role={DEVELOPER_DATA?.first?.role} instagramLink={DEVELOPER_DATA?.first.instagramLink} linkedinLink={DEVELOPER_DATA?.first?.linkedInLink} githubLink={DEVELOPER_DATA?.first?.githubLink} img={DEVELOPER_DATA?.first?.img} />
+
+                <Developer name={DEVELOPER_DATA?.second?.name} role={DEVELOPER_DATA?.second?.role} instagramLink={DEVELOPER_DATA?.second.instagramLink} linkedinLink={DEVELOPER_DATA?.second?.linkedInLink} githubLink={DEVELOPER_DATA?.second?.githubLink} img={DEVELOPER_DATA?.second?.img} />
+
+                <Developer name={DEVELOPER_DATA?.third?.name} role={DEVELOPER_DATA?.third?.role} instagramLink={DEVELOPER_DATA?.third.instagramLink} linkedinLink={DEVELOPER_DATA?.third?.linkedInLink} githubLink={DEVELOPER_DATA?.third?.githubLink} img={DEVELOPER_DATA?.third?.img} />
+
+
+
 
             </View>
         </SafeAreaView>
@@ -24,9 +40,16 @@ const DevSection = () => {
 export default DevSection
 
 const styles = StyleSheet.create({
+    navContainer: {
+        width: width,
+        backgroundColor: "white",
+        padding: 10,
+        paddingHorizontal: 20
+    },
     container: {
         backgroundColor: color.background,
-        height: height
+        height: height,
+
     },
     heading: {
         fontSize: 35,
