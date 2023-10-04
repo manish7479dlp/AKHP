@@ -7,12 +7,16 @@ import MembersList from '../components/MembersList';
 import MealDetails from '../components/MealDetails';
 import UserData from '../components/UserData';
 import { getRoutineDayWise } from '../Helper/api';
+import { useSelector } from 'react-redux';
+
 
 var { width, height } = Dimensions.get('window');
 
 
 const UserHome = () => {
     const [meal, setMeal] = useState()
+    const userData = useSelector((state) => state.user.data)
+
 
     useEffect(() => {
         getRoutine()
@@ -20,7 +24,8 @@ const UserHome = () => {
 
     const getRoutine = async () => {
         try {
-            const response = await getRoutineDayWise()
+            const token = userData.token
+            const response = await getRoutineDayWise(token)
             setMeal(response.routine)
         } catch (error) {
             console.log(error)
