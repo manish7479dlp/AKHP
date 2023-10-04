@@ -33,6 +33,7 @@ const DevSection = () => {
 
 
             </View>
+            <Text style={styles.messName}>Aao Kabhi Haveli Pe</Text>
         </SafeAreaView>
     )
 }
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     },
     container: {
         backgroundColor: color.background,
-        height: height,
+        // height: height,
 
     },
     heading: {
@@ -56,7 +57,18 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         color: color.second,
         padding: 10,
-        textAlign: 'center'
+        textAlign: 'center',
+        marginBottom: 20
 
-    }
+    }, messName: {
+        color: color.first,
+        fontWeight: "300",
+        fontSize: 15,
+        backgroundColor: color.background,
+        width: width,
+        textAlign: 'center',
+        position: "relative",
+        top: height * .098
+
+    },
 })
