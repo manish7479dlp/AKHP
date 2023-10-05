@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.friendlyfly.akhp",
@@ -28,11 +30,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "08b7eac4-7d02-40d6-8d4f-5e9318ebf75e"
-      }
-    },
+    "extra": {},
     "owner": "injamulmd"
   }
 }
