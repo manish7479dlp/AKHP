@@ -98,7 +98,6 @@ const UserOperation = ({ title, btnTitle, searchInput, setSearchInput }) => {
         if (title === "Add User") {
             setSearchInput("")
             makeStateBlank()
-            console.log(("add"))
         } else if (title === "Edit") {
             if (searchInput.length === 0) {
                 Toast("Please enter Mobile number", 0, 120)
