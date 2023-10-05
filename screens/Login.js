@@ -18,6 +18,7 @@ const Login = () => {
     const [admin, setAdmin] = useState(false)
     const navigation = useNavigation()
 
+
     const dispatch = useDispatch();
 
     const handleLogin = async () => {
@@ -31,14 +32,19 @@ const Login = () => {
             if (!data?.status) {
                 setError(data?.message)
             }
-            dispatch(setUser(data))
+            if (data.status) {
+
+                setMobileNumber()
+                setPassword()
+                dispatch(setUser(data))
+                setError()
+            }
             console.log(data)
             if (data?.data?.role === 'admin') {
                 navigation.navigate("admin")
             } else if (data?.data?.role === 'user') {
                 navigation.navigate("user")
             }
-            setPassword(null)
             setLoading(false)
         } catch (error) {
             setLoading(false)
@@ -71,7 +77,7 @@ const Login = () => {
                                 {
                                     error && (<Text style={{ color: "red", marginBottom: 4, marginTop: -10 }}>{error}</Text>)
                                 }
-                                <TextInput maxLength={10} onChangeText={number => setMobileNumber(number)} keyboardType='numeric' style={styles.input} />
+                                <TextInput value={mobileNumber} maxLength={10} onChangeText={number => setMobileNumber(number)} keyboardType='numeric' style={styles.input} />
                             </View>
 
                             <View style={styles.field} >
@@ -97,7 +103,7 @@ const Login = () => {
                                         <Text style={styles.label}>
                                             Password
                                         </Text>
-                                        <TextInput onChangeText={password => setPassword(password)} secureTextEntry={true} style={styles.input} />
+                                        <TextInput value={password} onChangeText={password => setPassword(password)} secureTextEntry={true} style={styles.input} />
                                     </View>
 
                                 )}
