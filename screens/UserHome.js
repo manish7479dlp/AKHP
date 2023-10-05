@@ -26,7 +26,7 @@ const UserHome = () => {
         try {
             const token = userData.token
             const response = await getRoutineDayWise(token)
-            setMeal(response.routine)
+            setMeal(response.data)
         } catch (error) {
             console.log(error)
         }
