@@ -27,20 +27,25 @@ export default EditMeal
 const EditRoutine = ({ title, id, lunchMeal, dinnerMeal }) => {
     const [lunch, setLunch] = useState(lunchMeal);
     const [dinner, setDinner] = useState(dinnerMeal);
-    const userData = useSelector((state) => state.user.data)
+    const [loading, setLoading] = useState()
+
     const navigation = useNavigation()
+    const userData = useSelector((state) => state.user.data)
 
     const update = async () => {
         try {
+            setLoading(true)
             const token = userData.token
             const day = title.toLowerCase()
 
             const response = await editRoutineById({ id, lunch, dinner, day, token })
-            Toast(response?.message, 0, 80)
-            console.log(response)
+            setLoading(false)
             navigation.goBack()
+            Toast(response?.message, 0, 80)
 
         } catch (error) {
+            Toast(response?.message, 0, 80)
+            setLoading(false)
             console.log(error)
         }
 
@@ -64,8 +69,8 @@ const EditRoutine = ({ title, id, lunchMeal, dinnerMeal }) => {
                     </View>
 
                     <View style={styles.button}>
-                        <TouchableOpacity onPress={update} >
-                            <Text style={styles.buttonLabel}>Update</Text>
+                        <TouchableOpacity onPress={update} disabled={loading}>
+                            <Text style={styles.buttonLabel}>{loading ? "Please wait..." : "Update"}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -118,12 +123,11 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        marginTop: 10
+        marginTop: 10,
     },
     buttonLabel: {
         color: 'white',
         textAlign: "center",
-        width: 100,
         padding: 10,
         borderRadius: 8,
         backgroundColor: color.second,
