@@ -11,9 +11,9 @@ export default DEVLOPER_DATA = {
         name: "Injamul MD Mollah",
         role: "Backend Developer",
         img: require("../assets/devloperImg/injamul.png"),
-        instagramLink: "https://www.instagram.com/manish7479dlp/",
-        linkedInLink: "https://www.linkedin.com/in/manish7479dlp/",
-        githubLink: "https://github.com/manish7479dlp",
+        instagramLink: "https://www.instagram.com/mrinjamulm/",
+        linkedInLink: "https://www.linkedin.com/in/mrinjamul/",
+        githubLink: "https://github.com/mrinjamul",
     },
     third: {
         name: "MD Owais Raza",
