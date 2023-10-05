@@ -96,6 +96,7 @@ const UserOperation = ({ title, btnTitle, searchInput, setSearchInput }) => {
 
     useEffect(() => {
         if (title === "Add User") {
+            setSearchInput("")
             makeStateBlank()
             console.log(("add"))
         } else if (title === "Edit") {
