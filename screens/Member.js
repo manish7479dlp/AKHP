@@ -100,11 +100,21 @@ const UserOperation = ({ title, btnTitle, searchInput, setSearchInput }) => {
             makeStateBlank()
             console.log(("add"))
         } else if (title === "Edit") {
-            makeStateBlank()
-            getUserDetailByMobileNumber()
+            if (searchInput.length === 0) {
+                Toast("Please enter Mobile number", 0, 120)
+            } else {
+
+                makeStateBlank()
+                getUserDetailByMobileNumber()
+            }
         } else if (title === "Delete") {
-            makeStateBlank()
-            getUserDetailByMobileNumber()
+            if (searchInput.length === 0) {
+                Toast("Please enter Mobile number", 0, 120)
+            } else {
+
+                makeStateBlank()
+                getUserDetailByMobileNumber()
+            }
 
         }
     }, [title])
