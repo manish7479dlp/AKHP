@@ -27,11 +27,12 @@ const Login = () => {
                 return
             }
             setLoading(true)
-            const data = await userLogin(mobileNumber);
+            const data = await userLogin(mobileNumber, password);
             if (!data?.status) {
                 setError(data?.message)
             }
             dispatch(setUser(data))
+            console.log(data)
             if (data?.data?.role === 'admin') {
                 navigation.navigate("admin")
             } else if (data?.data?.role === 'user') {
