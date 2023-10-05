@@ -3,9 +3,9 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import color from "../constant/color"
 import Developer from '../components/Developer'
-import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'
 import DEVELOPER_DATA from "../store/DeveloperData"
+import { Ionicons } from '@expo/vector-icons';
 
 const { height, width } = Dimensions.get("window")
 
@@ -18,7 +18,7 @@ const DevSection = () => {
     return (
         <SafeAreaView >
             <TouchableOpacity onPress={goToLoginPage} style={styles.navContainer}>
-                <FontAwesome5 name="less-than" size={24} color={color.second} />
+                <Ionicons name="arrow-back-circle-sharp" size={30} color={color.second} />
             </TouchableOpacity>
             <View style={styles.container}>
                 <Text style={styles.heading}>Meet The Team</Text>
