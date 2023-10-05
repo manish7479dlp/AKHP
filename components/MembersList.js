@@ -1,5 +1,5 @@
 import { Dimensions, FlatList, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import color from '../constant/color';
 import { getAllUser } from '../Helper/api';
 import { useSelector } from 'react-redux';
@@ -39,7 +39,7 @@ const Details = ({ mb }) => {
     const [refreshing, setRefreshing] = React.useState(false);
     const userData = useSelector((state) => state.user.data)
 
-    useState(() => {
+    useEffect(() => {
         const getMembers = async () => {
             try {
                 const token = userData.token
