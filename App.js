@@ -6,8 +6,8 @@ import AdminNavigation from './navigation/AdminNavigation';
 import UserNavigation from './navigation/UserNavigation';
 import { Provider } from 'react-redux';
 import Store from "./store/Store.js"
-import { Text, View } from 'react-native';
 import DevSection from './screens/DevSection';
+import EditMeal from './screens/EditMeal';
 
 
 export default function App() {
@@ -37,6 +37,11 @@ export default function App() {
               headerShown: false,
               animation: 'slide_from_right'
             }} name='devloper' component={DevSection} />
+
+            <Stack.Screen options={{
+              headerShown: false,
+              animation: 'slide_from_right'
+            }} name='editMeal' component={EditMeal} />
           </Stack.Navigator>
 
         </NavigationContainer>
