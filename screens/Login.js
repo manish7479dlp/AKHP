@@ -38,6 +38,7 @@ const Login = () => {
             } else if (data?.data?.role === 'user') {
                 navigation.navigate("user")
             }
+            setPassword(null)
             setLoading(false)
         } catch (error) {
             setLoading(false)
