@@ -44,7 +44,7 @@ const Details = ({ mb }) => {
             try {
                 const token = userData.token
                 const response = await getAllUser(token);
-                console.log(response.data.length)
+                // console.log(response.data.length)
                 setMembers(response.data)
 
             } catch (error) {
