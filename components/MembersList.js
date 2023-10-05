@@ -8,32 +8,6 @@ var { width, height } = Dimensions.get('window');
 
 
 const MembersList = ({ mb }) => {
-
-
-    return (
-        <View>
-            <Text style={styles.title}>Active Members</Text>
-
-            <Title />
-            <Details mb={mb} />
-        </View>
-
-    )
-}
-
-const Title = () => {
-    return (
-        <View style={styles.titleContainer}>
-            <Text style={styles.titleName}>Sr.No</Text>
-            <Text style={styles.titleName}>Name</Text>
-            <Text style={styles.titleName}>Year</Text>
-            <Text style={styles.titleName}>Payment</Text>
-
-        </View>
-    )
-}
-
-const Details = ({ mb }) => {
     const [members, setMembers] = useState()
     const [routine, setRoutine] = useState();
     const [refreshing, setRefreshing] = React.useState(false);
@@ -60,6 +34,33 @@ const Details = ({ mb }) => {
             setRefreshing(false);
         }, 1000);
     }, []);
+
+
+    return (
+        <View>
+            <Text style={styles.title}>Total Active Members : <Text style={{ color: color.second }}>{members?.length}</Text></Text>
+
+            <Title />
+            <Details mb={mb} onRefresh={onRefresh} members={members} userData={userData} refreshing={refreshing} setRefreshing={setRefreshing} />
+        </View>
+
+    )
+}
+
+const Title = () => {
+    return (
+        <View style={styles.titleContainer}>
+            <Text style={styles.titleName}>Sr.No</Text>
+            <Text style={styles.titleName}>Name</Text>
+            <Text style={styles.titleName}>Year</Text>
+            <Text style={styles.titleName}>Payment</Text>
+
+        </View>
+    )
+}
+
+const Details = ({ mb, members, onRefresh, refreshing }) => {
+
 
     return (
         <View style={{ marginBottom: mb }}>
@@ -118,21 +119,19 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 8,
-        // backgroundColor: idx % 2 === 0 ? color.third : null
     },
     data: {
         fontSize: 16,
         color: color.second,
         fontWeight: '700',
-        // backgroundColor: "red",
         width: 100,
-        // textAlign: 'start'
     },
     title: {
         fontWeight: "600",
         color: color.first,
-        fontSize: 20,
-        textAlign: 'center'
+        fontSize: 22,
+        marginLeft: 12,
+        marginVertical: 5
     }
 
 })
