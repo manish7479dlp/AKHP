@@ -2,6 +2,8 @@ import { Button, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-na
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons, Feather } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 
 import color from "../constant/color"
@@ -23,12 +25,14 @@ const Attendance = () => {
                             <Text style={{ color: "white", fontWeight: "500" }}>
                                 <Feather name="sun" size={20} color="white" />  Lunch :
                             </Text>
+                            <AntDesign name="checkcircle" size={22} color="lightgreen" />
                         </View>
 
                         <View style={styles.lunchContainer}>
                             <Text style={{ color: "white", fontWeight: "500" }}>
                                 <Ionicons name="cloudy-night-outline" size={20} color={"white"} />  Dinner :
                             </Text>
+                            <Entypo name="circle-with-cross" size={24} color="red" />
                         </View>
 
                     </View>
@@ -105,6 +109,10 @@ const styles = StyleSheet.create({
     lunchContainer: {
         margintop: 10,
         padding: 5,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around'
     },
     attendanceContainer: {
         backgroundColor: color.second,
