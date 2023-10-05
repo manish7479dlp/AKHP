@@ -37,9 +37,6 @@ const Routine = () => {
     }, []);
 
 
-
-
-
     return (
         <SafeAreaView>
             <UserData />
