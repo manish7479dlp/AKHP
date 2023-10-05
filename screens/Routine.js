@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, ScrollView, StyleSheet, Text, View, RefreshControl } from 'react-native'
+import { Dimensions, FlatList, StyleSheet, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import MealDetails from '../components/MealDetails'
@@ -7,7 +7,7 @@ import { getAlltRoutine } from '../Helper/api'
 import { useSelector } from 'react-redux';
 
 
-var { width, height } = Dimensions.get('window');
+var { height } = Dimensions.get('window');
 
 const Routine = () => {
     const [routine, setRoutine] = useState();
@@ -16,13 +16,11 @@ const Routine = () => {
 
 
     useEffect(() => {
-
         const getRoutine = async () => {
             try {
                 const token = userData.token
                 const response = await getAlltRoutine(token);
                 setRoutine(response.data);
-
             } catch (error) {
                 console.log(error)
             }
@@ -50,7 +48,7 @@ const Routine = () => {
                 data={routine}
                 renderItem={({ item }) => (
 
-                    <MealDetails id={item._id} title={item.day.charAt(0).toUpperCase() + item.day.slice(1)} lunchMeal={item.lunch} dinnerMeal={item.dinner} />
+                    <MealDetails id={item._id} title={item.day.charAt(0).toUpperCase() + item.day.slice(1)} lunchMeal={item.lunch} dinnerMeal={item.dinner} edit={userData.data.role === 'admin'} />
 
                 )}
                 keyExtractor={item => item.day}
