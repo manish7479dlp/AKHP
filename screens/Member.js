@@ -36,6 +36,7 @@ const Member = () => {
                 setActive(ADD_USER)
                 break;
         }
+
     }
 
     return (
@@ -150,9 +151,13 @@ const UserOperation = ({ title, btnTitle, searchInput, setSearchInput }) => {
                 response = await deleteUser({ mobile, token })
             }
 
-            // if (response?.status) {
-            //     makeStateBlank()
-            // }
+            if (response?.status) {
+                makeStateBlank()
+                setSearchInput("")
+            }
+
+
+
             Toast(response?.message, 0, 90)
             console.log(response)
 
