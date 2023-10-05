@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "AKHP",
-    "slug": "AKHP",
+    "name": "Aao Kbhi Hweli Pe",
+    "slug": "aao-kbhi-hweli-pe",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,20 +11,28 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.friendlyfly.akhp",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.friendlyfly.akhp",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "08b7eac4-7d02-40d6-8d4f-5e9318ebf75e"
+      }
+    },
+    "owner": "injamulmd"
   }
 }
