@@ -1,4 +1,4 @@
-import { Button, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, Button, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons, Feather } from '@expo/vector-icons';
@@ -59,6 +59,7 @@ const Scan = () => {
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
         //send request from their
+        Alert.alert(data)
         console.log(type, data)
     };
 
