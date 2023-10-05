@@ -19,17 +19,21 @@ const ADD_USER = 'adduser'
 const Member = () => {
     const [userOperation, setUserOperation] = useState("Add User");
     const [searchInput, setSearchInput] = useState();
+    const [active, setActive] = useState(ADD_USER)
 
     const handleOperation = (operation) => {
         switch (operation) {
             case EDIT_USER:
                 setUserOperation('Edit')
+                setActive(EDIT_USER)
                 break;
             case DELETE_USER:
                 setUserOperation("Delete")
+                setActive(DELETE_USER)
                 break;
             case ADD_USER:
                 setUserOperation("Add User")
+                setActive(ADD_USER)
                 break;
         }
     }
@@ -43,9 +47,9 @@ const Member = () => {
             >
                 <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} />
                 <View style={styles.iconContainer}>
-                    <FilterButton iconName={ADD_USER} handleOperation={handleOperation} />
-                    <FilterButton iconName={EDIT_USER} handleOperation={handleOperation} />
-                    <FilterButton iconName={DELETE_USER} handleOperation={handleOperation} />
+                    <FilterButton active={active} iconName={ADD_USER} handleOperation={handleOperation} />
+                    <FilterButton active={active} iconName={EDIT_USER} handleOperation={handleOperation} />
+                    <FilterButton active={active} iconName={DELETE_USER} handleOperation={handleOperation} />
 
                 </View>
 
@@ -71,11 +75,12 @@ const SearchBar = ({ searchInput, setSearchInput }) => {
     )
 }
 
-const FilterButton = ({ iconName, handleOperation }) => {
+const FilterButton = ({ iconName, handleOperation, active }) => {
 
     return (
-        <TouchableOpacity onPress={() => handleOperation(iconName)} style={styles.filterBtnContainer}>
-            <AntDesign name={iconName} size={30} color={"white"} />
+        <TouchableOpacity onPress={() => handleOperation(iconName)} style={iconName === active ? styles.active : styles.inActive} >
+            <AntDesign name={iconName} size={25} color={iconName === active ? "white" : color.second} />
+
         </TouchableOpacity>
     )
 }
@@ -145,10 +150,11 @@ const UserOperation = ({ title, btnTitle, searchInput, setSearchInput }) => {
                 response = await deleteUser({ mobile, token })
             }
 
-            // if (response.status) {
+            // if (response?.status) {
             //     makeStateBlank()
             // }
-            // Toast(response?.message, x = 0, y = 190)
+            Toast(response?.message, 0, 90)
+            console.log(response)
 
             setLoading(false);
         } catch (error) {
@@ -160,7 +166,6 @@ const UserOperation = ({ title, btnTitle, searchInput, setSearchInput }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{title}</Text>
             <View style={styles.content}>
                 <View style={styles.field}>
                     <Text style={styles.label}>
@@ -219,9 +224,9 @@ const styles = StyleSheet.create({
     iconContainer: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         paddingHorizontal: 4,
-        backgroundColor: color.first
+        marginTop: 5
     },
     filterBtnContainer: {
         width: width * .2,
@@ -237,11 +242,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10
-    },
-    title: {
-        fontWeight: '600',
-        fontSize: 50,
-        color: color.second
     },
     content: {
         marginTop: 8,
@@ -283,5 +283,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
     },
+    active: {
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+        backgroundColor: color.second,
+        borderRadius: 10
+    },
+    inActive: {
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+        backgroundColor: 'white',
+        borderRadius: 10
+    }
 
 })
