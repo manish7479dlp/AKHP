@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 var { width, height } = Dimensions.get('window');
 
 
-const MembersList = ({ mb }) => {
+const MembersList = () => {
     const [members, setMembers] = useState()
     const [routine, setRoutine] = useState();
     const [refreshing, setRefreshing] = React.useState(false);
@@ -41,7 +41,7 @@ const MembersList = ({ mb }) => {
             <Text style={styles.title}>Total Active Members : <Text style={{ color: color.second }}>{members?.length}</Text></Text>
 
             <Title />
-            <Details mb={mb} onRefresh={onRefresh} members={members} userData={userData} refreshing={refreshing} setRefreshing={setRefreshing} />
+            <Details onRefresh={onRefresh} members={members} userData={userData} refreshing={refreshing} setRefreshing={setRefreshing} />
         </View>
 
     )
@@ -59,36 +59,35 @@ const Title = () => {
     )
 }
 
-const Details = ({ mb, members, onRefresh, refreshing }) => {
+const Details = ({ members, onRefresh, refreshing }) => {
 
 
     return (
-        <View style={{ marginBottom: mb }}>
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                data={members}
-                renderItem={({ item }) => {
-                    var bgColor = item.idx % 2 === 1 ? color.background : "white"
-                    return (
-                        <View style={{ backgroundColor: bgColor }} >
-                            <View style={styles.dataContainer} >
-                                <Text style={styles.data}>{item.idx + 1}</Text>
-                                <Text style={styles.data}>{item.firstName}</Text>
-                                <Text style={styles.data}>{item.year}</Text>
-                                <Text style={styles.data}>{item.advance}</Text>
+        <FlatList
+            style={{ marginBottom: height * .48 }}
+            showsVerticalScrollIndicator={false}
+            data={members}
+            renderItem={({ item }) => {
+                var bgColor = item.idx % 2 === 1 ? color.background : "white"
+                return (
+                    <View style={{ backgroundColor: bgColor }} >
+                        <View style={styles.dataContainer} >
+                            <Text style={styles.data}>{item.idx + 1}</Text>
+                            <Text style={styles.data}>{item.firstName}</Text>
+                            <Text style={styles.data}>{item.year}</Text>
+                            <Text style={styles.data}>{item.advance}</Text>
 
-                            </View>
                         </View>
-                    )
-                }}
+                    </View>
+                )
+            }}
 
-                keyExtractor={item => item.idx}
+            keyExtractor={item => item.idx}
 
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }
-            />
-        </View>
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+        />
 
 
     )
