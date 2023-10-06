@@ -11,6 +11,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useSelector } from 'react-redux';
 import Toast from "../components/Toast"
 import { getAttendance, giveAttendance } from '../Helper/api';
+import UserData from "../components/UserData"
 
 var { width, height } = Dimensions.get('window');
 
@@ -54,35 +55,34 @@ const Attendance = () => {
 
     return (
         <SafeAreaView >
-            <ScrollView>
-                <Scan submitAttendance={submitAttendance} />
+            <UserData />
+            <Scan submitAttendance={submitAttendance} />
 
-                <View style={styles.container}>
-                    <Text style={styles.title}>Today's Attendance</Text>
-                    <View style={styles.attendanceContainer}>
-                        <View style={styles.lunchContainer}>
-                            <Text style={{ color: "white", fontWeight: "500" }}>
-                                <Feather name="sun" size={20} color="white" />  Lunch :
-                            </Text>
-                            {attendance?.lunch ?
-                                <AntDesign name="checkcircle" size={22} color="lightgreen" />
-                                : <Entypo name="circle-with-cross" size={24} color="red" />
-                            }
-                        </View>
-
-                        <View style={styles.lunchContainer}>
-                            <Text style={{ color: "white", fontWeight: "500" }}>
-                                <Ionicons name="cloudy-night-outline" size={20} color={"white"} />  Dinner :
-                            </Text>
-                            {attendance?.dinner ?
-                                <AntDesign name="checkcircle" size={22} color="lightgreen" />
-                                : <Entypo name="circle-with-cross" size={24} color="red" />
-                            }
-                        </View>
-
+            <View style={styles.container}>
+                <Text style={styles.title}>Today's Attendance</Text>
+                <View style={styles.attendanceContainer}>
+                    <View style={styles.lunchContainer}>
+                        <Text style={{ color: "white", fontWeight: "500" }}>
+                            <Feather name="sun" size={20} color="white" />  Lunch :
+                        </Text>
+                        {attendance?.lunch ?
+                            <AntDesign name="checkcircle" size={22} color="lightgreen" />
+                            : <Entypo name="circle-with-cross" size={24} color="red" />
+                        }
                     </View>
+
+                    <View style={styles.lunchContainer}>
+                        <Text style={{ color: "white", fontWeight: "500" }}>
+                            <Ionicons name="cloudy-night-outline" size={20} color={"white"} />  Dinner :
+                        </Text>
+                        {attendance?.dinner ?
+                            <AntDesign name="checkcircle" size={22} color="lightgreen" />
+                            : <Entypo name="circle-with-cross" size={24} color="red" />
+                        }
+                    </View>
+
                 </View>
-            </ScrollView>
+            </View>
         </SafeAreaView>
     )
 }
@@ -107,8 +107,7 @@ const Scan = ({ submitAttendance }) => {
         setScanned(true);
         //send request from their
         submitAttendance(data)
-        Alert.alert("Attendance sucessfully...")
-        // console.log(type, data)
+
     };
 
     if (hasPermission === null) {
@@ -143,7 +142,7 @@ const styles = StyleSheet.create({
 
     },
     container: {
-        marginTop: 10,
+        // marginTop: 5,
         padding: 20,
         backgroundColor: color.background,
         display: 'flex',
