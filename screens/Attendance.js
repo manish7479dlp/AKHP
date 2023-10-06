@@ -89,7 +89,7 @@ const Attendance = () => {
 
 const Scan = ({ submitAttendance }) => {
     const [hasPermission, setHasPermission] = useState(null);
-    const [scanned, setScanned] = useState(true);
+    const [scanned, setScanned] = useState(false);
 
 
 
