@@ -37,7 +37,7 @@ const UserHome = () => {
             <View style={styles.container}>
                 <UserData />
                 <MealDetails title={"Today Meal"} lunchMeal={meal?.lunch} dinnerMeal={meal?.dinner} edit={false} />
-                <MembersList mb={height * .5} />
+                <MembersList />
 
 
             </View>
