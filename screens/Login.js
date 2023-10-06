@@ -80,19 +80,17 @@ const Login = () => {
                                 <TextInput value={mobileNumber} maxLength={10} onChangeText={number => setMobileNumber(number)} keyboardType='numeric' style={styles.input} />
                             </View>
 
-                            <View style={styles.field} >
-                                <Text style={styles.label}>
+                            <View style={styles.admin} >
+                                <Text style={[styles.label, styles.adminLabel]}>
                                     Admin
                                 </Text>
-                                <View style={{ display: "flex", flexDirection: 'row', justifyContent: 'flex-start', marginVertical: -16 }}>
-                                    <Switch
-                                        value={admin}
-                                        onValueChange={(value) => setAdmin(value)}
-                                        trackColor={{ false: color.third, true: color.layer }}
-                                        thumbColor={admin ? color.second : '#f4f3f4'}
+                                <Switch
+                                    value={admin}
+                                    onValueChange={(value) => setAdmin(value)}
+                                    trackColor={{ false: color.third, true: color.layer }}
+                                    thumbColor={admin ? color.second : '#f4f3f4'}
 
-                                    />
-                                </View>
+                                />
 
                             </View>
 
@@ -223,4 +221,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 5
     },
+    admin: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        // backgroundColor: 'grey'
+    },
+    adminLabel: {
+        marginBottom: 0,
+        marginRight: 5
+    }
 })
