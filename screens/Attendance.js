@@ -8,15 +8,54 @@ import { Entypo } from '@expo/vector-icons';
 
 import color from "../constant/color"
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { useSelector } from 'react-redux';
+import Toast from "../components/Toast"
+import { getAttendance, giveAttendance } from '../Helper/api';
 
 var { width, height } = Dimensions.get('window');
 
 
 const Attendance = () => {
+    const userData = useSelector((state) => state.user.data)
+    const [attendance, setAttendance] = useState()
+    const token = userData.token
+
+
+    useEffect(() => {
+        const attendance = async () => {
+            try {
+                const mobile = userData.data.mobile
+                const response = await getAttendance({ token, mobile })
+                if (response?.status) {
+                    setAttendance(response?.data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        attendance()
+    }, [])
+
+
+    const submitAttendance = async (url) => {
+        try {
+            console.log(url)
+            const response = await giveAttendance({ token, url })
+            if (response?.status) {
+                setAttendance(response.data)
+            }
+            Alert.alert(response?.message)
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <SafeAreaView >
             <ScrollView>
-                <Scan />
+                <Scan submitAttendance={submitAttendance} />
 
                 <View style={styles.container}>
                     <Text style={styles.title}>Today's Attendance</Text>
@@ -25,14 +64,20 @@ const Attendance = () => {
                             <Text style={{ color: "white", fontWeight: "500" }}>
                                 <Feather name="sun" size={20} color="white" />  Lunch :
                             </Text>
-                            <AntDesign name="checkcircle" size={22} color="lightgreen" />
+                            {attendance?.lunch ?
+                                <AntDesign name="checkcircle" size={22} color="lightgreen" />
+                                : <Entypo name="circle-with-cross" size={24} color="red" />
+                            }
                         </View>
 
                         <View style={styles.lunchContainer}>
                             <Text style={{ color: "white", fontWeight: "500" }}>
                                 <Ionicons name="cloudy-night-outline" size={20} color={"white"} />  Dinner :
                             </Text>
-                            <Entypo name="circle-with-cross" size={24} color="red" />
+                            {attendance?.dinner ?
+                                <AntDesign name="checkcircle" size={22} color="lightgreen" />
+                                : <Entypo name="circle-with-cross" size={24} color="red" />
+                            }
                         </View>
 
                     </View>
@@ -42,9 +87,11 @@ const Attendance = () => {
     )
 }
 
-const Scan = () => {
+const Scan = ({ submitAttendance }) => {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(true);
+
+
 
     useEffect(() => {
         const getBarCodeScannerPermissions = async () => {
@@ -59,8 +106,9 @@ const Scan = () => {
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
         //send request from their
-        Alert.alert(data)
-        console.log(type, data)
+        submitAttendance(data)
+        Alert.alert("Attendance sucessfully...")
+        // console.log(type, data)
     };
 
     if (hasPermission === null) {
