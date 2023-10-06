@@ -26,6 +26,20 @@ const AdminNavigation = () => {
                     }
                 }
             } />
+
+
+            <Tab.Screen name="routine" component={Routine} options={
+                {
+                    headerShown: false,
+                    tabBarLabel: "Routine",
+                    tabBarIcon: ({ focused, color, size }) => {
+                        return (
+                            focused ? (<MaterialIcons name="date-range" size={size} color={color} />) : (<Fontisto name="date" size={24} color="black" />)
+                        )
+                    }
+                }
+            } />
+
             <Tab.Screen name="Member" component={Member} options={
                 {
                     headerShown: false,
@@ -52,17 +66,6 @@ const AdminNavigation = () => {
 
 
 
-            <Tab.Screen name="routine" component={Routine} options={
-                {
-                    headerShown: false,
-                    tabBarLabel: "Routine",
-                    tabBarIcon: ({ focused, color, size }) => {
-                        return (
-                            focused ? (<MaterialIcons name="date-range" size={size} color={color} />) : (<Fontisto name="date" size={24} color="black" />)
-                        )
-                    }
-                }
-            } />
             <Tab.Screen name="expences" component={Expences} options={
                 {
                     headerShown: false,
