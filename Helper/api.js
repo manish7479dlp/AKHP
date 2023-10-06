@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux"
-import Attendance from "../screens/Attendance";
 
 
 // const BASE_URL = "https://akhp.onrender.com"
@@ -229,4 +228,26 @@ const giveAttendance = async ({ token, url }) => {
 
 }
 
-export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser, giveAttendance }
+// get Attendance
+const getAttendance = async ({ token, mobile }) => {
+    const URL = BASE_URL + "/api/v1/attendance/" + mobile
+    console.log(mobile)
+    try {
+        const response = await fetch(URL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        const user = await response.json()
+        console.log(user)
+        return user
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser, giveAttendance, getAttendance }
