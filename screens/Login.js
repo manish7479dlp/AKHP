@@ -101,19 +101,20 @@ const Login = () => {
                                 <TextInput value={password} onChangeText={password => setPassword(password)} secureTextEntry={true} style={styles.input} />
                             </View>
 
+                            <View style={{ width: width * .9, paddingLeft: 8 }}>
+                                <View style={styles.admin} >
+                                    <Text style={[styles.label, styles.adminLabel]}>
+                                        Admin
+                                    </Text>
+                                    <Switch
+                                        value={admin}
+                                        onValueChange={(value) => setAdmin(value)}
+                                        trackColor={{ false: color.third, true: color.layer }}
+                                        thumbColor={admin ? color.second : '#f4f3f4'}
 
-                            <View style={styles.admin} >
-                                <Text style={[styles.label, styles.adminLabel]}>
-                                    Admin
-                                </Text>
-                                <Switch
-                                    value={admin}
-                                    onValueChange={(value) => setAdmin(value)}
-                                    trackColor={{ false: color.third, true: color.layer }}
-                                    thumbColor={admin ? color.second : '#f4f3f4'}
+                                    />
 
-                                />
-
+                                </View>
                             </View>
 
                             <View style={styles.button}>
@@ -238,7 +239,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        // backgroundColor: 'grey'
     },
     adminLabel: {
         marginBottom: 0,
