@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     button: {
         width: width,
         alignItems: 'center',
-        marginTop: 5
+        // marginTop: 5
     },
     buttonLabel: {
         color: 'white',
