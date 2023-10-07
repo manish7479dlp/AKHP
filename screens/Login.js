@@ -32,37 +32,6 @@ const Login = () => {
         }
     };
 
-    const getData = async (key) => {
-        try {
-            let data = await AsyncStorage.getItem(key);
-            data = JSON.parse(data)
-            console.log(data)
-            if (data) {
-                dispatch(setUser(data))
-                if (data?.data?.role === 'admin') {
-                    navigation.navigate("admin")
-                } else if (data?.data?.role === 'user') {
-                    navigation.navigate("user")
-                }
-
-            }
-            // return jsonValue != null ? JSON.parse(jsonValue) : null;
-        } catch (error) {
-
-            console.log(error)
-        }
-    };
-
-
-    useEffect(() => {
-        getData(USER)
-
-        console.log("first")
-    }, [])
-
-
-
-
 
     const handleLogin = async () => {
         try {
