@@ -4,7 +4,7 @@ import color from '../constant/color';
 import { getAllUser } from '../Helper/api';
 import { useSelector } from 'react-redux';
 
-var { width, height } = Dimensions.get('window');
+var { width, height } = Dimensions.get('screen');
 
 
 const MembersList = () => {
@@ -64,7 +64,7 @@ const Details = ({ members, onRefresh, refreshing }) => {
 
     return (
         <FlatList
-            style={{ marginBottom: height * .48 }}
+            style={{ marginBottom: height * .46 }}
             showsVerticalScrollIndicator={false}
             data={members}
             renderItem={({ item }) => {
