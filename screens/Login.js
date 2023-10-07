@@ -7,8 +7,12 @@ import { setUser } from '../store/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { userLogin } from '../Helper/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 var { width, height } = Dimensions.get('window');
 
+
+const USER = 'user'
 
 const Login = () => {
     const [mobileNumber, setMobileNumber] = useState();
@@ -17,9 +21,48 @@ const Login = () => {
     const [error, setError] = useState("")
     const [admin, setAdmin] = useState(false)
     const navigation = useNavigation()
-
-
     const dispatch = useDispatch();
+
+    const storeData = async (key, value) => {
+        try {
+            const jsonValue = JSON.stringify(value);
+            await AsyncStorage.setItem(key, jsonValue);
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    const getData = async (key) => {
+        try {
+            let data = await AsyncStorage.getItem(key);
+            data = JSON.parse(data)
+            console.log(data)
+            if (data) {
+                dispatch(setUser(data))
+                if (data?.data?.role === 'admin') {
+                    navigation.navigate("admin")
+                } else if (data?.data?.role === 'user') {
+                    navigation.navigate("user")
+                }
+
+            }
+            // return jsonValue != null ? JSON.parse(jsonValue) : null;
+        } catch (error) {
+
+            console.log(error)
+        }
+    };
+
+
+    useEffect(() => {
+        getData(USER)
+
+        console.log("first")
+    }, [])
+
+
+
+
 
     const handleLogin = async () => {
         try {
@@ -37,6 +80,7 @@ const Login = () => {
                 setMobileNumber()
                 setPassword()
                 dispatch(setUser(data))
+                storeData(USER, data)
                 setError()
             }
             console.log(data)
