@@ -1,4 +1,4 @@
-import { Alert, Button, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, Button, Dimensions, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons, Feather } from '@expo/vector-icons';
@@ -21,6 +21,7 @@ var { width, height } = Dimensions.get('window');
 const Attendance = () => {
     const userData = useSelector((state) => state.user.data)
     const [attendance, setAttendance] = useState()
+    const [refreshing, setRefreshing] = React.useState(false);
     const token = userData.token
 
 
@@ -38,7 +39,7 @@ const Attendance = () => {
         }
 
         attendance()
-    }, [])
+    }, [refreshing])
 
 
     const submitAttendance = async (url) => {
@@ -55,36 +56,52 @@ const Attendance = () => {
         }
     }
 
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    }, []);
+
     return (
         <SafeAreaView >
-            <UserData />
-            <Scan submitAttendance={submitAttendance} />
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+            >
+                <UserData />
+                <Scan submitAttendance={submitAttendance} />
 
-            <View style={styles.container}>
-                <Text style={styles.title}>Today's Attendance</Text>
-                <View style={styles.attendanceContainer}>
-                    <View style={styles.lunchContainer}>
-                        <Text style={{ color: "white", fontWeight: "500" }}>
-                            <Feather name="sun" size={20} color="white" />  Lunch :
-                        </Text>
-                        {attendance?.lunch ?
-                            <AntDesign name="checkcircle" size={22} color="lightgreen" />
-                            : <Entypo name="circle-with-cross" size={24} color="red" />
-                        }
+                <View style={styles.container}>
+                    <Text style={styles.title}>Today's Attendance</Text>
+                    <View style={styles.attendanceContainer}>
+                        <View style={styles.lunchContainer}>
+                            <Text style={{ color: "white", fontWeight: "500" }}>
+                                <Feather name="sun" size={20} color="white" />  Lunch :
+                            </Text>
+                            {attendance?.lunch ?
+                                <AntDesign name="checkcircle" size={22} color="lightgreen" />
+                                : <Entypo name="circle-with-cross" size={24} color="red" />
+                            }
+                        </View>
+
+                        <View style={styles.lunchContainer}>
+                            <Text style={{ color: "white", fontWeight: "500" }}>
+                                <Ionicons name="cloudy-night-outline" size={20} color={"white"} />  Dinner :
+                            </Text>
+                            {attendance?.dinner ?
+                                <AntDesign name="checkcircle" size={22} color="lightgreen" />
+                                : <Entypo name="circle-with-cross" size={24} color="red" />
+                            }
+                        </View>
+
                     </View>
-
-                    <View style={styles.lunchContainer}>
-                        <Text style={{ color: "white", fontWeight: "500" }}>
-                            <Ionicons name="cloudy-night-outline" size={20} color={"white"} />  Dinner :
-                        </Text>
-                        {attendance?.dinner ?
-                            <AntDesign name="checkcircle" size={22} color="lightgreen" />
-                            : <Entypo name="circle-with-cross" size={24} color="red" />
-                        }
-                    </View>
-
                 </View>
-            </View>
+
+            </ScrollView>
         </SafeAreaView>
     )
 }
