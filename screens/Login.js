@@ -122,6 +122,10 @@ const Login = () => {
                                 </TouchableOpacity>
                             </View>
 
+                            <TouchableOpacity style={{ marginTop: 8 }}>
+                                <Text style={{ color: 'blue' }}>Dont have a password? create a password!</Text>
+                            </TouchableOpacity>
+
                         </View>
 
                         <Text style={styles.messName}>Aao Kabhi Haveli Pe</Text>
@@ -161,18 +165,16 @@ const styles = StyleSheet.create({
         width: width,
         height: height * .3,
         marginTop: -height * .170,
-
-
     },
     title: {
-        marginTop: 8,
+        // marginTop: 3,
         fontSize: 35,
         fontWeight: 'bold',
         color: color.second,
     }
     ,
     content: {
-        marginTop: 8,
+        marginTop: 5,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
