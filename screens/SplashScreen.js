@@ -3,7 +3,7 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/UserSlice';
 const { width, height } = Dimensions.get('screen')
@@ -22,13 +22,22 @@ const SplashScreen = () => {
             if (data) {
                 dispatch(setUser(data))
                 if (data?.data?.role === 'admin') {
-                    navigation.navigate("admin")
+                    navigation.dispatch(CommonActions.reset({
+                        index: 0,
+                        routes: [{ name: "admin" }]
+                    }))
                 } else if (data?.data?.role === 'user') {
-                    navigation.navigate("user")
+                    navigation.dispatch(CommonActions.reset({
+                        index: 0,
+                        routes: [{ name: "user" }]
+                    }))
                 }
 
             } else {
-                navigation.navigate("login")
+                navigation.dispatch(CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: "login" }]
+                }))
             }
         } catch (error) {
 
