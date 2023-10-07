@@ -93,17 +93,14 @@ const Login = () => {
                                 <TextInput value={mobileNumber} maxLength={10} onChangeText={number => setMobileNumber(number)} keyboardType='numeric' style={styles.input} />
                             </View>
 
-                            {
-                                admin && (
 
-                                    <View style={styles.field} >
-                                        <Text style={styles.label}>
-                                            Password
-                                        </Text>
-                                        <TextInput value={password} onChangeText={password => setPassword(password)} secureTextEntry={true} style={styles.input} />
-                                    </View>
+                            <View style={styles.field} >
+                                <Text style={styles.label}>
+                                    Password
+                                </Text>
+                                <TextInput value={password} onChangeText={password => setPassword(password)} secureTextEntry={true} style={styles.input} />
+                            </View>
 
-                                )}
 
                             <View style={styles.admin} >
                                 <Text style={[styles.label, styles.adminLabel]}>
