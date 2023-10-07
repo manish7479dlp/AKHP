@@ -45,7 +45,7 @@ const Routine = () => {
                 data={routine}
                 renderItem={({ item }) => (
 
-                    <MealDetails id={item._id} title={item.day.charAt(0).toUpperCase() + item.day.slice(1)} lunchMeal={item.lunch} dinnerMeal={item.dinner} edit={userData.data.role === 'admin'} />
+                    <MealDetails id={item._id} title={item.day.charAt(0).toUpperCase() + item.day.slice(1)} lunchMeal={item.lunch} dinnerMeal={item.dinner} edit={userData?.data?.role === 'admin'} />
 
                 )}
                 keyExtractor={item => item.day}
