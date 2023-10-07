@@ -64,7 +64,7 @@ const Details = ({ members, onRefresh, refreshing }) => {
 
     return (
         <FlatList
-            style={{ marginBottom: height * .46 }}
+            style={{ height: height * .5 }}
             showsVerticalScrollIndicator={false}
             data={members}
             renderItem={({ item }) => {
