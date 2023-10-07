@@ -123,7 +123,7 @@ const Login = () => {
                                 </TouchableOpacity>
                             </View>
 
-                            <TouchableOpacity style={{ marginTop: 8 }}>
+                            <TouchableOpacity style={{ marginTop: 12 }}>
                                 <Text style={{ color: 'blue' }}>Dont have a password? create a password!</Text>
                             </TouchableOpacity>
 
