@@ -72,7 +72,7 @@ const Details = ({ members, onRefresh, refreshing }) => {
                 bgColor = item.isEaten ? "rgba(34, 229, 83,.5)" : bgColor
 
                 return (
-                    <View style={{ backgroundColor: bgColor, borderBottomWidth: 1, borderBottomColor: 'white', borderRadius: 10 }} >
+                    <View style={{ backgroundColor: bgColor, borderBottomWidth: 1, borderBottomColor: 'white' }} >
                         <View style={styles.dataContainer} >
                             <Text style={styles.data}>{item.idx + 1}</Text>
                             <Text style={styles.data}>{item.firstName}</Text>
