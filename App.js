@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import Store from "./store/Store.js"
 import DevSection from './screens/DevSection';
 import EditMeal from './screens/EditMeal';
+import SplashScreen from './screens/SplashScreen';
 
 
 export default function App() {
@@ -18,6 +19,10 @@ export default function App() {
       <SafeAreaProvider >
         <NavigationContainer>
           <Stack.Navigator>
+            <Stack.Screen options={{
+              headerShown: false
+            }} name='splashScreen' component={SplashScreen} />
+
             <Stack.Screen options={{
               headerShown: false
             }} name='login' component={Login} />
