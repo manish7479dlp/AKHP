@@ -9,7 +9,6 @@ import { Entypo } from '@expo/vector-icons';
 import color from "../constant/color"
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useSelector } from 'react-redux';
-import Toast from "../components/Toast"
 import { getAttendance, giveAttendance } from '../Helper/api';
 import UserData from "../components/UserData"
 
@@ -39,12 +38,11 @@ const Attendance = () => {
         }
 
         attendance()
-    }, [refreshing])
+    }, [])
 
 
     const submitAttendance = async (url) => {
         try {
-            console.log(url)
             const response = await giveAttendance({ token, url })
             if (response?.status) {
                 setAttendance(response.data)
@@ -73,7 +71,7 @@ const Attendance = () => {
                 }
             >
                 <UserData />
-                <Scan submitAttendance={submitAttendance} />
+                <Scan submitAttendance={submitAttendance} refreshing={refreshing} />
 
                 <View style={styles.container}>
                     <Text style={styles.title}>Today's Attendance</Text>
@@ -106,7 +104,7 @@ const Attendance = () => {
     )
 }
 
-const Scan = ({ submitAttendance }) => {
+const Scan = ({ submitAttendance, refreshing }) => {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
 
@@ -120,7 +118,8 @@ const Scan = ({ submitAttendance }) => {
 
         getBarCodeScannerPermissions();
 
-    }, []);
+
+    }, [refreshing]);
 
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
