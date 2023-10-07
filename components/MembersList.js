@@ -69,6 +69,7 @@ const Details = ({ members, onRefresh, refreshing }) => {
             data={members}
             renderItem={({ item }) => {
                 var bgColor = item.idx % 2 === 1 ? color.background : "white"
+                bgColor = item.isEaten ? "rgba(34, 229, 83,.5)" : bgColor
                 return (
                     <View style={{ backgroundColor: bgColor }} >
                         <View style={styles.dataContainer} >
