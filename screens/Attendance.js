@@ -13,6 +13,8 @@ import Toast from "../components/Toast"
 import { getAttendance, giveAttendance } from '../Helper/api';
 import UserData from "../components/UserData"
 
+import { Buffer } from 'buffer'
+
 var { width, height } = Dimensions.get('window');
 
 
@@ -105,8 +107,13 @@ const Scan = ({ submitAttendance }) => {
 
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
+        // get encrypt data
+        let encryptedData = Buffer.from(data, "base64");
+        // get decrypt data
+        let url = encryptedData.toString("utf8")
         //send request from their
-        submitAttendance(data)
+        submitAttendance(url)
+
 
     };
 
