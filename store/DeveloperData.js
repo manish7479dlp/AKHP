@@ -10,7 +10,7 @@ export default DEVLOPER_DATA = {
     second: {
         name: "Injamul MD Mollah",
         role: "Backend Developer",
-        img: require("../assets/devloperImg/injamul.png"),
+        img: require("../assets/devloperImg/injamul.jpg"),
         instagramLink: "https://www.instagram.com/mrinjamulm/",
         linkedInLink: "https://www.linkedin.com/in/mrinjamul/",
         githubLink: "https://github.com/mrinjamul",
