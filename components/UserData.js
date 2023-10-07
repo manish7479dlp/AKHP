@@ -4,6 +4,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/core';
 import { setUser } from '../store/UserSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const USER = 'user'
+
 
 
 const UserData = () => {
@@ -11,9 +14,19 @@ const UserData = () => {
     const userData = useSelector((state) => state.user.data)
     const navigation = useNavigation()
 
+    const removeValue = async (key) => {
+        try {
+            await AsyncStorage.removeItem(key)
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
 
     const logout = () => {
         dispatch(setUser({}))
+        removeValue(USER)
         navigation.navigate("login")
     }
 
