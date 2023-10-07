@@ -49,7 +49,7 @@ const Attendance = () => {
             if (response?.status) {
                 setAttendance(response.data)
             }
-            Alert.alert(response?.message)
+            Alert.alert(response ? "Attended successfully 👍\n Thank you!" : "Are you kidding? 😆");
             console.log(response)
         } catch (error) {
             console.log(error)
