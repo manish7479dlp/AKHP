@@ -8,6 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { userLogin } from '../Helper/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Skelton from '../components/Skelton';
+import InputField from '../components/InputField';
+import CustomButton from '../components/CustomButton';
 
 var { width, height } = Dimensions.get('window');
 
@@ -18,10 +21,16 @@ const Login = () => {
     const [mobileNumber, setMobileNumber] = useState();
     const [password, setPassword] = useState();
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState("")
+    const [error, setError] = useState()
     const [admin, setAdmin] = useState(false)
     const navigation = useNavigation()
     const dispatch = useDispatch();
+
+
+    const changePassword = () => {
+        navigation.navigate("changePassword")
+    }
+
 
     const storeData = async (key, value) => {
         try {
@@ -44,7 +53,7 @@ const Login = () => {
             if (!data?.status) {
                 setError(data?.message)
             }
-            if (data.status) {
+            if (data?.status) {
 
                 setMobileNumber()
                 setPassword()
@@ -66,173 +75,62 @@ const Login = () => {
 
     }
 
-    const goDevloperSection = () => {
-        navigation.navigate("devloper")
-    }
-
     return (
+        <Skelton>
+            <View style={styles.container}>
+                <Text style={styles.title}>Login</Text>
+                {error && <Text style={styles.errorMessage}>{error}</Text>}
+                <InputField keyBoardType='numeric' label={"Mobile Number"} value={mobileNumber} setChangeValue={setMobileNumber} />
+                <InputField label={"Password"} value={password} setChangeValue={setPassword} />
+                <CustomSwitch admin={admin} setAdmin={setAdmin} />
+                <CustomButton btnLabel={"Login"} btnClick={handleLogin} loading={loading} />
+                <TouchableOpacity onPress={changePassword}>
+                    <Text style={styles.changePasswordLabel}>Change password</Text>
+                </TouchableOpacity>
 
-        <SafeAreaView style={{ backgroundColor: "lightgrey" }}>
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-            >
-                <View style={styles.container}>
-                    <View style={styles.wrapper}>
-                        <View style={styles.heroBanner}>
-                            <Image style={{ width: "100%", height: '100%', resizeMode: 'center' }} source={require("../assets/hero.png")} />
-                        </View>
-                        <Text style={styles.title}>Login</Text>
-                        <View style={styles.content}>
-                            <View style={styles.field}>
-                                <Text style={styles.label}>
-                                    Mobile Number
-                                </Text>
-                                {
-                                    error && (<Text style={{ color: "red", marginBottom: 4, marginTop: -10 }}>{error}</Text>)
-                                }
-                                <TextInput value={mobileNumber} maxLength={10} onChangeText={number => setMobileNumber(number)} keyboardType='numeric' style={styles.input} />
-                            </View>
-
-
-                            <View style={styles.field} >
-                                <Text style={styles.label}>
-                                    Password
-                                </Text>
-                                <TextInput value={password} onChangeText={password => setPassword(password)} secureTextEntry={true} style={styles.input} />
-                            </View>
-
-                            <View style={{ width: width * .9, paddingLeft: 8 }}>
-                                <View style={styles.admin} >
-                                    <Text style={[styles.label, styles.adminLabel]}>
-                                        Admin
-                                    </Text>
-                                    <Switch
-                                        value={admin}
-                                        onValueChange={(value) => setAdmin(value)}
-                                        trackColor={{ false: color.third, true: color.layer }}
-                                        thumbColor={admin ? color.second : '#f4f3f4'}
-
-                                    />
-
-                                </View>
-                            </View>
-
-                            <View style={styles.button}>
-                                <TouchableOpacity onPress={handleLogin} disabled={loading}>
-                                    <Text style={styles.buttonLabel}>{loading ? "Please wait..." : "Login"}</Text>
-                                </TouchableOpacity>
-                            </View>
-
-                            <TouchableOpacity style={{ marginTop: 12 }}>
-                                <Text style={{ color: 'blue' }}>Dont have a password? create a password!</Text>
-                            </TouchableOpacity>
-
-                        </View>
-
-                        <Text style={styles.messName}>Aao Kabhi Haveli Pe</Text>
-
-                    </View>
-                    <TouchableOpacity style={styles.dev} onPress={goDevloperSection}>
-                        <FontAwesome5 name="dev" size={30} color="white" />
-                    </TouchableOpacity>
-
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-
+            </View>
+        </Skelton>
     )
 }
 
 export default Login
 
+const CustomSwitch = ({ admin, setAdmin }) => {
+    return (
+        <View style={{ width: width * .9, paddingLeft: 8 }}>
+            <View style={styles.admin} >
+                <Text style={[styles.label, styles.adminLabel]}>
+                    Admin
+                </Text>
+                <Switch
+                    value={admin}
+                    onValueChange={(value) => setAdmin(value)}
+                    trackColor={{ false: color.third, true: color.layer }}
+                    thumbColor={admin ? color.second : '#f4f3f4'}
+
+                />
+
+            </View>
+        </View>
+    )
+}
+
+
 const styles = StyleSheet.create({
     container: {
-        height: height,
-        backgroundColor: color.second,
-        display: 'flex',
-        justifyContent: 'flex-end',
-    },
-    wrapper: {
-        backgroundColor: "white",
-        height: height * .8,
         width: width,
-        borderTopStartRadius: 40,
-        borderTopRightRadius: 40,
         display: 'flex',
-        alignItems: "center",
-
-    },
-    heroBanner: {
-        width: width,
-        height: height * .3,
-        marginTop: -height * .170,
-    },
-    title: {
-        // marginTop: 3,
-        fontSize: 35,
-        fontWeight: 'bold',
-        color: color.second,
-    }
-    ,
-    content: {
-        marginTop: 5,
-        display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column',
         alignItems: 'center'
     },
-    field: {
-        padding: 8,
-        width: width * .9
-    },
-    label: {
-        fontWeight: '500',
-        marginBottom: 10,
-        fontSize: 18
-    },
-    input: {
-        borderWidth: 2,
-        borderColor: color.first,
-        borderRadius: 8,
-        padding: 15,
-        fontWeight: 'bold',
-        fontSize: 18
-
-    },
-    button: {
-        width: width,
-        alignItems: 'center',
-        // marginTop: 5
-    },
-    buttonLabel: {
-        color: 'white',
-        textAlign: "center",
-        padding: 10,
-        paddingHorizontal: 15,
-        borderRadius: 8,
-        backgroundColor: color.second,
-        fontSize: 18,
+    title: {
+        fontSize: 25,
         fontWeight: '600',
+        color: color.second,
+        marginBottom: 10
     },
-    messName: {
-        color: color.first,
-        fontWeight: "300",
-        fontSize: 15,
-        position: 'absolute',
-        bottom: 0,
-        padding: 10,
-        backgroundColor: color.four,
-        width: width,
-        textAlign: 'center'
-
-    },
-    dev: {
-        backgroundColor: color.first,
-        borderRadius: 5,
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        paddingHorizontal: 8,
-        paddingVertical: 5
+    errorMessage: {
+        color: 'red'
     },
     admin: {
         display: 'flex',
@@ -243,5 +141,16 @@ const styles = StyleSheet.create({
     adminLabel: {
         marginBottom: 0,
         marginRight: 5
+    },
+    label: {
+        fontWeight: '500',
+        marginBottom: 10,
+        fontSize: 18
+    },
+    changePasswordLabel: {
+        color: 'blue',
+        marginTop: 5
     }
 })
+
+
