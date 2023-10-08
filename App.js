@@ -10,6 +10,7 @@ import DevSection from './screens/DevSection';
 import EditMeal from './screens/EditMeal';
 import SplashScreen from './screens/SplashScreen';
 import ChangePassword from './screens/ChangePassword';
+import Profile from './components/Profile';
 
 
 export default function App() {
@@ -56,6 +57,11 @@ export default function App() {
               headerShown: false,
               animation: 'slide_from_right'
             }} name='editMeal' component={EditMeal} />
+
+            <Stack.Screen options={{
+              headerShown: false,
+              animation: 'slide_from_right'
+            }} name='profile' component={Profile} />
           </Stack.Navigator>
 
         </NavigationContainer>
