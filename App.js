@@ -9,6 +9,7 @@ import Store from "./store/Store.js"
 import DevSection from './screens/DevSection';
 import EditMeal from './screens/EditMeal';
 import SplashScreen from './screens/SplashScreen';
+import ChangePassword from './screens/ChangePassword';
 
 
 export default function App() {
@@ -19,9 +20,14 @@ export default function App() {
       <SafeAreaProvider >
         <NavigationContainer>
           <Stack.Navigator>
+
             <Stack.Screen options={{
               headerShown: false
             }} name='splashScreen' component={SplashScreen} />
+
+            <Stack.Screen options={{
+              headerShown: false
+            }} name='changePassword' component={ChangePassword} />
 
             <Stack.Screen options={{
               headerShown: false
