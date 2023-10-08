@@ -8,7 +8,7 @@ import { EvilIcons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window')
 
-const UserDetails = () => {
+const Profile = () => {
     return (
         <SafeAreaView>
             <ScrollView>
@@ -44,7 +44,7 @@ const UserDetails = () => {
     )
 }
 
-export default UserDetails
+export default Profile
 
 const styles = StyleSheet.create({
     container: {
