@@ -22,15 +22,18 @@ export default function App() {
           <Stack.Navigator>
 
             <Stack.Screen options={{
-              headerShown: false
+              headerShown: false,
+              animation: 'slide_from_right'
             }} name='splashScreen' component={SplashScreen} />
 
             <Stack.Screen options={{
-              headerShown: false
+              headerShown: false,
+              animation: 'slide_from_right'
             }} name='changePassword' component={ChangePassword} />
 
             <Stack.Screen options={{
-              headerShown: false
+              headerShown: false,
+              animation: 'slide_from_right'
             }} name='login' component={Login} />
 
             <Stack.Screen options={{
