@@ -5,13 +5,16 @@ import InputField from '../components/InputField'
 import color from '../constant/color'
 import { useState } from 'react'
 import CustomButton from '../components/CustomButton'
+import { useNavigation } from '@react-navigation/native'
 
 const { width, height } = Dimensions.get('screen')
 const ChangePassword = () => {
-    const [oldPassword, setOldPassword] = useState()
-    const [newPassword, setNewPassword] = useState()
-    const [confirmPassword, setConfirmPassword] = useState()
-    const [loading, setLoading] = useState()
+    const [oldPassword, setOldPassword] = useState(null)
+    const [newPassword, setNewPassword] = useState(null)
+    const [confirmPassword, setConfirmPassword] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState()
+    const navigation = useNavigation()
 
     const setStateEmpty = () => {
         setOldPassword(null)
@@ -21,9 +24,31 @@ const ChangePassword = () => {
 
     //handle update
     const handleUpdate = () => {
+        setError(null)
         try {
+            if (!oldPassword) {
+                if (newPassword === confirmPassword) {
+                    setLoading(true)
+                    //logic
 
+                    // navigation.goBack()
+                    setLoading(false)
+                } else {
+                    setError("New and Confirm password not match")
+                }
+            } else {
+                if (newPassword === confirmPassword) {
+                    setLoading(true)
+                    //logic
+                    // navigation.goBack()
+                    setLoading(false)
+                } else {
+                    setError("New and Confirm password not match")
+
+                }
+            }
         } catch (error) {
+            setLoading(false)
             console.log(error)
         }
     }
@@ -33,10 +58,11 @@ const ChangePassword = () => {
             <View style={styles.container}>
 
                 <Text style={styles.title}>Change Password</Text>
+                {error && <Text style={styles.errorMessage}>{error}</Text>}
                 <InputField label={"Old Password"} value={oldPassword} setChangeValue={setOldPassword} />
                 <InputField label={"New Password"} value={newPassword} setChangeValue={setNewPassword} />
                 <InputField label={"Confirm Password"} value={confirmPassword} setChangeValue={setConfirmPassword} />
-                <CustomButton btnLabel={"Update"} loading={false} btnClick={handleUpdate} />
+                <CustomButton btnLabel={"Update"} loading={loading} btnClick={handleUpdate} />
 
 
 
@@ -62,5 +88,8 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: color.second,
         marginBottom: 10
+    },
+    errorMessage: {
+        color: 'red'
     }
 })
