@@ -15,7 +15,9 @@ const Skelton = ({ children }) => {
 
     return (
         <SafeAreaView>
-            <ScrollView>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+            >
                 <View style={styles.container}>
                     <View style={styles.wrapper}>
                         <View style={styles.heroBanner}>
