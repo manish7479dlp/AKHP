@@ -15,32 +15,27 @@ const Skelton = ({ children }) => {
 
     return (
         <SafeAreaView>
-            <ScrollView
-                showsVerticalScrollIndicator={false}>
+            <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.wrapper}>
                         <View style={styles.heroBanner}>
                             <Image style={{ width: "100%", height: '100%', resizeMode: 'center' }} source={require("../assets/hero.png")} />
-
-
-                            <View style={styles.childrenContainer}>
-                                {children}
-                            </View>
-
-
                         </View>
+
+                        <View style={styles.childrenContainer}>
+                            {children}
+                        </View>
+
                         <Text style={styles.messName}>Aao Kabhi Haveli Pe</Text>
 
                     </View>
                     <TouchableOpacity style={styles.dev} onPress={goDevloperSection}>
                         <FontAwesome5 name="dev" size={30} color="white" />
                     </TouchableOpacity>
-
                 </View>
-
             </ScrollView>
 
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 
@@ -48,14 +43,13 @@ export default Skelton
 
 const styles = StyleSheet.create({
     container: {
-        height: height,
         backgroundColor: color.second,
         display: 'flex',
         justifyContent: 'flex-end',
     },
     wrapper: {
         backgroundColor: "white",
-        height: height * .8,
+        marginTop: 150,
         width: width,
         borderTopStartRadius: 40,
         borderTopRightRadius: 40,
@@ -73,12 +67,12 @@ const styles = StyleSheet.create({
         fontWeight: "300",
         fontSize: 15,
         position: 'absolute',
-        bottom: 25,
+        bottom: 0,
         padding: 10,
         backgroundColor: color.four,
         width: width,
         textAlign: 'center',
-        // backgroundColor: 'green'
+        backgroundColor: 'lightgrey'
 
     },
     dev: {
@@ -91,8 +85,6 @@ const styles = StyleSheet.create({
         paddingVertical: 5
     },
     childrenContainer: {
-        width: width,
-        height: height * .5796,
-        // backgroundColor: 'red'
+        paddingBottom: 70
     }
 })
