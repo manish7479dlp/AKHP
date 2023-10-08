@@ -15,26 +15,30 @@ const Skelton = ({ children }) => {
 
     return (
         <SafeAreaView>
-            <View style={styles.container}>
-                <View style={styles.wrapper}>
-                    <View style={styles.heroBanner}>
-                        <Image style={{ width: "100%", height: '100%', resizeMode: 'center' }} source={require("../assets/hero.png")} />
+            <ScrollView
+                showsVerticalScrollIndicator={false}>
+                <View style={styles.container}>
+                    <View style={styles.wrapper}>
+                        <View style={styles.heroBanner}>
+                            <Image style={{ width: "100%", height: '100%', resizeMode: 'center' }} source={require("../assets/hero.png")} />
 
 
-                        <View style={styles.childrenContainer}>
-                            {children}
+                            <View style={styles.childrenContainer}>
+                                {children}
+                            </View>
+
+
                         </View>
-
+                        <Text style={styles.messName}>Aao Kabhi Haveli Pe</Text>
 
                     </View>
-                    <Text style={styles.messName}>Aao Kabhi Haveli Pe</Text>
+                    <TouchableOpacity style={styles.dev} onPress={goDevloperSection}>
+                        <FontAwesome5 name="dev" size={30} color="white" />
+                    </TouchableOpacity>
 
                 </View>
-                <TouchableOpacity style={styles.dev} onPress={goDevloperSection}>
-                    <FontAwesome5 name="dev" size={30} color="white" />
-                </TouchableOpacity>
 
-            </View>
+            </ScrollView>
 
         </SafeAreaView>
     )
