@@ -71,7 +71,7 @@ const Login = () => {
             }
             console.log(data)
             if (data?.data?.role === 'admin') {
-                navigation.navigate("admin")
+                admin ? navigation.navigate("admin") : navigation.navigate("user")
             } else if (data?.data?.role === 'user') {
                 navigation.navigate("user")
             }
