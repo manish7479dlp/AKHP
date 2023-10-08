@@ -68,6 +68,7 @@ const Login = () => {
                 dispatch(setUser(data))
                 storeData(USER, data)
                 setError()
+                setAdmin()
             }
             console.log(data)
             if (data?.data?.role === 'admin') {
