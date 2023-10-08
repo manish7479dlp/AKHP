@@ -57,7 +57,9 @@ const Login = () => {
                 return
             }
             setLoading(true)
-            const data = await userLogin(mobileNumber, password);
+            let data
+            const ROLE = 'admin'
+            data = admin ? await userLogin(mobileNumber, password, ROLE) : await userLogin(mobileNumber, password);
             if (!data?.status) {
                 setError(data?.message)
             }
@@ -72,7 +74,7 @@ const Login = () => {
             }
             console.log(data)
             if (data?.data?.role === 'admin') {
-                admin ? navigation.navigate("admin") : navigation.navigate("user")
+                navigation.navigate("admin")
             } else if (data?.data?.role === 'user') {
                 navigation.navigate("user")
             }
