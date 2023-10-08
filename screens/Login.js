@@ -44,8 +44,16 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            if (!mobileNumber || mobileNumber.length !== 10) {
-                setError("Invalid Mobile Number")
+            if (!mobileNumber) {
+                setError("Mobile number is required")
+                return
+            }
+            if (mobileNumber.length !== 10) {
+                setError("Invalid Mobile number")
+                return
+            }
+            if (!password) {
+                setError("Password is required")
                 return
             }
             setLoading(true)
