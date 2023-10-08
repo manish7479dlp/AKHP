@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux"
 
 
-const BASE_URL = "https://akhp.onrender.com"
-// const BASE_URL = "http://192.168.0.154:4000"
+// const BASE_URL = "https://akhp.onrender.com"
+const BASE_URL = "http://192.168.0.154:4000"
 
 
 
-const userLogin = async (mobile, password) => {
+const userLogin = async (mobile, password, role) => {
     const URL = BASE_URL + "/api/auth/login"
     try {
         const response = await fetch(URL, {
@@ -14,7 +14,7 @@ const userLogin = async (mobile, password) => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ mobile: mobile, password: password })
+            body: JSON.stringify({ mobile: mobile, password: password, role: role })
         });
         const user = await response.json();
         return user;
