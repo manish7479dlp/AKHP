@@ -8,7 +8,7 @@ import CustomButton from '../components/CustomButton'
 import color from '../constant/color'
 
 import { SelectList } from 'react-native-dropdown-select-list'
-import { addAdvance } from '../Helper/api'
+import { addAdvance, spendMoney } from '../Helper/api'
 import Toast from "../components/Toast"
 import { useSelector } from 'react-redux'
 
@@ -100,27 +100,47 @@ const AdvanceMoney = ({ token }) => {
     )
 }
 
-const Spend = () => {
+const Spend = ({ token }) => {
     const [isCash, setIsCash] = useState(false)
     const [itemName, setItemName] = useState()
     const [quantity, setQuantity] = useState()
     const [amount, setAmount] = useState()
     const [loading, setLoading] = useState()
-    const [selected, setSelected] = React.useState("");
-    console.log(selected)
+    const [selected, setSelected] = useState("");
+    const [description, setDescription] = useState()
+
     const data = [
         { key: '1', value: 'Vegetable Shop' },
-        { key: '2', value: 'Grocerry Shop' },
+        { key: '2', value: 'Grocery Shop' },
         { key: '3', value: 'Chicken Shop' },
         { key: '4', value: 'Fish Shop' },
         { key: '5', value: 'Others' },
 
     ]
 
+    const setStateEmpty = () => {
+        setIsCash()
+        setItemName()
+        setQuantity()
+        setAmount()
+        setDescription()
+    }
+
+
     const handleSpend = async () => {
         try {
+            setLoading(true)
+            const recipient = selected
+            const item = itemName
+            const response = await spendMoney({ amount, description, token, recipient, quantity, item, isCash })
+            if (response?.status) {
+                setStateEmpty()
+            }
 
+            Toast(response?.message)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             console.log(error)
         }
     }
@@ -142,6 +162,8 @@ const Spend = () => {
             <InputField label={"Item Name"} value={itemName} setChangeValue={setItemName} />
             <InputField label={"Quantity"} value={quantity} setChangeValue={setQuantity} />
             <InputField label={"Amount"} keyBoardType='numeric' value={amount} setChangeValue={setAmount} />
+
+            {selected === 'Others' && <InputField label={"Description"} value={description} setChangeValue={setDescription} />}
 
             <CustomSwitch label={"Cash"} value={isCash} setValue={setIsCash} />
             <CustomButton loading={loading} btnLabel={"Save"} btnClick={handleSpend} />
