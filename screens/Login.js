@@ -27,8 +27,8 @@ const Login = () => {
     const dispatch = useDispatch();
 
 
-    const changePassword = () => {
-        navigation.navigate("changePassword")
+    const createPassword = () => {
+        navigation.navigate("createPassword")
     }
 
 
@@ -95,8 +95,8 @@ const Login = () => {
                 <InputField label={"Password"} value={password} setChangeValue={setPassword} isPassword={true} />
                 <CustomSwitch admin={admin} setAdmin={setAdmin} />
                 <CustomButton btnLabel={"Login"} btnClick={handleLogin} loading={loading} />
-                <TouchableOpacity onPress={changePassword}>
-                    <Text style={styles.changePasswordLabel}>Change password</Text>
+                <TouchableOpacity onPress={createPassword}>
+                    <Text style={styles.changePasswordLabel}>Create password</Text>
                 </TouchableOpacity>
 
             </View>
