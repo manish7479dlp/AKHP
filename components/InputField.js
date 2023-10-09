@@ -1,15 +1,24 @@
-import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native'
-import React from 'react'
+import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import { MaterialIcons } from '@expo/vector-icons';
 
 const { height, width } = Dimensions.get('screen')
 
 const InputField = ({ value, setChangeValue, label, keyBoardType = 'default', isPassword = false }) => {
+    const [visible, setVisible] = useState(isPassword)
     return (
         <View style={styles.field} >
             <Text style={styles.label}>
                 {label}
             </Text>
-            <TextInput keyboardType={keyBoardType} value={value} onChangeText={value => setChangeValue(value)} secureTextEntry={isPassword} style={styles.input} />
+            <TextInput keyboardType={keyBoardType} value={value} onChangeText={value => setChangeValue(value)} secureTextEntry={visible} style={styles.input} />
+            {
+                isPassword && (
+                    <TouchableOpacity style={styles.passwordVisibleIcon} onPress={() => setVisible(!visible)}>
+                        <MaterialIcons style={{ textAlign: 'right', marginRight: 10, paddingVertical: 8 }} name={visible ? "visibility-off" : "visibility"} size={24} color="black" />
+                    </TouchableOpacity>
+                )
+            }
         </View>
     )
 }
@@ -35,4 +44,10 @@ const styles = StyleSheet.create({
         fontSize: 18
 
     },
+    passwordVisibleIcon: {
+        position: 'absolute',
+        bottom: 18,
+        right: 10,
+        // backgroundColor: 'red',
+    }
 })
