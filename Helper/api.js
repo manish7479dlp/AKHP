@@ -272,4 +272,29 @@ const createPassword = async (mobile, password) => {
 
 }
 
-export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser, giveAttendance, getAttendance, createPassword }
+// change password
+const changePassword = async ({ oldPassword, newPassword, mobile, token }) => {
+    const URL = BASE_URL + "/api/v1/user/" + mobile
+    const password = newPassword
+    try {
+        const response = await fetch(URL, {
+            method: "Patch",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+
+            },
+            body: JSON.stringify({ oldPassword, password })
+
+        })
+        const user = await response.json()
+        console.log(user)
+        return user
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser, giveAttendance, getAttendance, createPassword, changePassword }
