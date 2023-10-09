@@ -1,4 +1,4 @@
-import { Alert, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Dimensions, Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 const USER = 'user'
+
+const { width, height } = Dimensions.get('screen')
 
 
 
@@ -59,7 +61,7 @@ const CustomModal = ({ visible, setVisible }) => {
             animationType="slide"
             transparent={true}
             visible={visible}
-
+            onRequestClose={() => { setVisible(false) }}
         >
             <View style={styles.modalContentContainer}>
                 <TouchableOpacity style={styles.btnContainer} onPress={handleProfile}>
@@ -71,6 +73,10 @@ const CustomModal = ({ visible, setVisible }) => {
                     <Text style={styles.btnLabel}>Logout</Text>
                 </TouchableOpacity>
             </View>
+            <TouchableWithoutFeedback onPress={() => { setVisible(false) }}>
+                <View style={styles.overlay}>
+                </View>
+            </TouchableWithoutFeedback>
 
         </Modal>
     )
@@ -93,14 +99,13 @@ const styles = StyleSheet.create({
 
     },
     modalContentContainer: {
-        // width: 150,
         position: 'absolute',
         right: 0,
         top: 50,
         marginRight: 10,
         padding: 5,
         backgroundColor: 'white',
-        borderRadius: 5
+        borderRadius: 5,
     },
     btnContainer: {
         width: 100,
@@ -110,13 +115,20 @@ const styles = StyleSheet.create({
         backgroundColor: color.background,
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     btnLabel: {
         fontSize: 18,
         fontWeight: '600',
         textAlign: 'center',
         color: color.second,
-        marginLeft: 3
+        marginLeft: 3,
+    },
+    overlay: {
+        height: height,
+        width: width,
+        position: 'absolute',
+        top: 0,
+        marginTop: 170,
     }
 })
