@@ -4,10 +4,9 @@ import { AntDesign, Entypo, Fontisto, MaterialIcons, FontAwesome, FontAwesome5, 
 import Routine from '../screens/Routine';
 import Expences from '../screens/Expences';
 
-import color from "../constant/color"
 import Member from '../screens/Member';
 import UserHome from "../screens/UserHome"
-import Items from '../screens/Items';
+import Transaction from '../screens/Transaction';
 
 
 const Tab = createBottomTabNavigator();
@@ -52,13 +51,13 @@ const AdminNavigation = () => {
                 }
             } />
 
-            <Tab.Screen name="Items" component={Items} options={
+            <Tab.Screen name="transaction" component={Transaction} options={
                 {
                     headerShown: false,
-                    tabBarLabel: "Items",
+                    tabBarLabel: "Transaction",
                     tabBarIcon: ({ focused, color, size }) => {
                         return (
-                            focused ? (<AntDesign name="pluscircle" size={size} color={color} />) : (<AntDesign name="pluscircleo" size={24} color="black" />)
+                            focused ? (<FontAwesome5 name="dollar-sign" size={24} color={color} />) : (<FontAwesome name="dollar" size={24} color="black" />)
                         )
                     }
                 }
