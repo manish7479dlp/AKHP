@@ -57,7 +57,7 @@ const AdminNavigation = () => {
                     tabBarLabel: "Transaction",
                     tabBarIcon: ({ focused, color, size }) => {
                         return (
-                            focused ? (<FontAwesome5 name="dollar-sign" size={24} color={color} />) : (<FontAwesome name="dollar" size={24} color="black" />)
+                            focused ? (<FontAwesome5 name="exchange-alt" size={24} color={color} />) : (<FontAwesome name="exchange" size={24} color="black" />)
                         )
                     }
                 }
