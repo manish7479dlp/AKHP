@@ -62,9 +62,9 @@ const ChangePassword = () => {
 
                 <Text style={styles.title}>Change Password</Text>
                 {error && <Text style={styles.errorMessage}>{error}</Text>}
-                <InputField label={"Old Password"} value={oldPassword} setChangeValue={setOldPassword} />
-                <InputField label={"New Password"} value={newPassword} setChangeValue={setNewPassword} />
-                <InputField label={"Confirm Password"} value={confirmPassword} setChangeValue={setConfirmPassword} />
+                <InputField label={"Old Password"} value={oldPassword} setChangeValue={setOldPassword} isPassword={true} />
+                <InputField label={"New Password"} value={newPassword} setChangeValue={setNewPassword} isPassword={true} />
+                <InputField label={"Confirm Password"} value={confirmPassword} setChangeValue={setConfirmPassword} isPassword={true} />
                 <CustomButton btnLabel={"Update"} loading={loading} btnClick={handleUpdate} />
 
 
