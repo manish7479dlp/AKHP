@@ -68,7 +68,7 @@ const getUserByMobile = async (mobile, token) => {
 
 // create user 
 const createUser = async ({ name, year, advance, mobile, token }) => {
-    const URL = BASE_URL + "/api/auth/signup"
+    const URL = BASE_URL + "/api/v1/user"
 
     try {
         const response = await fetch(URL, {
@@ -249,5 +249,7 @@ const getAttendance = async ({ token, mobile }) => {
     }
 
 }
+
+
 
 export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser, giveAttendance, getAttendance }
