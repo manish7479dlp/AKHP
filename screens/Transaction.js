@@ -83,14 +83,14 @@ const Spend = () => {
     const [amount, setAmount] = useState()
     const [loading, setLoading] = useState()
     const [selected, setSelected] = React.useState("");
+    console.log(selected)
     const data = [
-        { key: '1', value: 'Mobiles', disabled: true },
-        { key: '2', value: 'Appliances' },
-        { key: '3', value: 'Cameras' },
-        { key: '4', value: 'Computers', disabled: true },
-        { key: '5', value: 'Vegetables' },
-        { key: '6', value: 'Diary Products' },
-        { key: '7', value: 'Drinks' },
+        { key: '1', value: 'Vegetable Shop' },
+        { key: '2', value: 'Grocerry Shop' },
+        { key: '3', value: 'Chicken Shop' },
+        { key: '4', value: 'Fish Shop' },
+        { key: '5', value: 'Others' },
+
     ]
 
 
@@ -98,11 +98,15 @@ const Spend = () => {
         <View style={styles.spendContainer}>
             <Text style={styles.advanceTitle}>Spend Money</Text>
 
-            <SelectList
-                setSelected={(val) => setSelected(val)}
-                data={data}
-                save="value"
-            />
+            <View style={styles.recipientContainer}>
+                <Text style={styles.recipientLabel}>Recipient</Text>
+                <SelectList
+                    setSelected={(val) => setSelected(val)}
+                    data={data}
+                    save="value"
+                    boxStyles={{ width: width * .85 }}
+                />
+            </View>
             <InputField label={"Item Name"} value={itemName} setChangeValue={setItemName} />
             <InputField label={"Quantity"} value={quantity} setChangeValue={setQuantity} />
             <InputField label={"Amount"} keyBoardType='numeric' value={amount} setChangeValue={setAmount} />
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
 
-    // spent style\
+    // spent style
 
     spendContainer: {
         width: width,
@@ -156,6 +160,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
+    },
+
+    recipientContainer: {
+        alignSelf: 'flex-start',
+        marginLeft: 25,
+        marginTop: 10,
+        marginBottom: 5
+    },
+    recipientLabel: {
+        fontWeight: '500',
+        marginBottom: 10,
+        fontSize: 18
+    },
+    dropdown: {
+        width: width
     }
 
 })
