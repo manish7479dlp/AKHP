@@ -92,7 +92,7 @@ const Login = () => {
                 <Text style={styles.title}>Login</Text>
                 {error && <Text style={styles.errorMessage}>{error}</Text>}
                 <InputField keyBoardType='numeric' label={"Mobile Number"} value={mobileNumber} setChangeValue={setMobileNumber} />
-                <InputField label={"Password"} value={password} setChangeValue={setPassword} />
+                <InputField label={"Password"} value={password} setChangeValue={setPassword} isPassword={true} />
                 <CustomSwitch admin={admin} setAdmin={setAdmin} />
                 <CustomButton btnLabel={"Login"} btnClick={handleLogin} loading={loading} />
                 <TouchableOpacity onPress={changePassword}>
