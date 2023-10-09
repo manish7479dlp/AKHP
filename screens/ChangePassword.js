@@ -6,6 +6,9 @@ import color from '../constant/color'
 import { useState } from 'react'
 import CustomButton from '../components/CustomButton'
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
+import { changePassword } from '../Helper/api'
+import Toast from "../components/Toast"
 
 const { width, height } = Dimensions.get('screen')
 const ChangePassword = () => {
@@ -16,6 +19,9 @@ const ChangePassword = () => {
     const [error, setError] = useState()
     const navigation = useNavigation()
 
+    const userData = useSelector((state) => state.user.data)
+    const token = userData?.token
+
     const setStateEmpty = () => {
         setOldPassword(null)
         setNewPassword(null)
@@ -23,30 +29,27 @@ const ChangePassword = () => {
     }
 
     //handle update
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
+
         setError(null)
         try {
-            if (!oldPassword) {
-                if (newPassword === confirmPassword) {
-                    setLoading(true)
-                    //logic
-
-                    // navigation.goBack()
-                    setLoading(false)
+            if (newPassword === confirmPassword) {
+                setLoading(true)
+                //logic
+                const mobile = userData?.data?.mobile
+                const response = await changePassword({ mobile, oldPassword, newPassword, token })
+                if (response?.status) {
+                    Toast(response?.message)
+                    navigation.goBack()
                 } else {
-                    setError("New and Confirm password not match")
+                    setError(response?.message)
                 }
+                setLoading(false)
             } else {
-                if (newPassword === confirmPassword) {
-                    setLoading(true)
-                    //logic
-                    // navigation.goBack()
-                    setLoading(false)
-                } else {
-                    setError("New and Confirm password not match")
-
-                }
+                setError("New and Confirm password not match")
             }
+
+
         } catch (error) {
             setLoading(false)
             console.log(error)
