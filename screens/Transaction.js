@@ -8,6 +8,9 @@ import CustomButton from '../components/CustomButton'
 import color from '../constant/color'
 
 import { SelectList } from 'react-native-dropdown-select-list'
+import { addAdvance } from '../Helper/api'
+import Toast from "../components/Toast"
+import { useSelector } from 'react-redux'
 
 
 const { width, height } = Dimensions.get("screen")
@@ -16,6 +19,10 @@ const DATA = ["Spend", "Advance"]
 
 const Transaction = () => {
     const [spend, setSpend] = useState(false)
+    const userData = useSelector((state) => state.user.data)
+    const token = userData.token
+
+
     return (
         <Skelton>
             <View style={styles.container}>
@@ -24,7 +31,7 @@ const Transaction = () => {
                 <CustomSwitch label={"Spend"} value={spend} setValue={setSpend} />
 
                 {/* render (spend and Advance Money component) on the basis of upper switch */}
-                {spend ? <Spend /> : <AdvanceMoney />}
+                {spend ? <Spend token={token} /> : <AdvanceMoney token={token} />}
 
 
             </View>
@@ -51,14 +58,31 @@ const CustomSwitch = ({ value, setValue, label }) => {
     )
 }
 
-const AdvanceMoney = () => {
+const AdvanceMoney = ({ token }) => {
     const [mobile, setMobile] = useState()
     const [advance, setAdvance] = useState()
     const [description, setDescription] = useState()
     const [loading, setLoading] = useState()
 
-    const handleAdvance = () => {
+    const setStateEmpty = () => {
+        setMobile()
+        setAdvance()
+        setDescription()
+    }
 
+    const handleAdvance = async () => {
+        try {
+            setLoading(true)
+            const response = await addAdvance({ mobile, advance, description, token })
+            if (response?.status) {
+                setStateEmpty()
+            }
+            Toast(response?.message)
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            console.log(error)
+        }
     }
 
     return (
@@ -66,9 +90,9 @@ const AdvanceMoney = () => {
 
 
             <Text style={styles.advanceTitle}>Advance Money</Text>
-            <InputField label={"Mobile Number"} keyBoardType='numeric' value={mobile} onValueChange={setMobile} />
-            <InputField label={"Advance Money"} keyBoardType='numeric' value={advance} onValueChange={setAdvance} />
-            <InputField label={"Description"} value={description} onValueChange={setDescription} />
+            <InputField label={"Mobile Number"} keyBoardType='numeric' value={mobile} setChangeValue={setMobile} />
+            <InputField label={"Advance Money"} keyBoardType='numeric' value={advance} setChangeValue={setAdvance} />
+            <InputField label={"Description"} value={description} setChangeValue={setDescription} />
 
             <CustomButton btnLabel={"Add Advance"} btnClick={handleAdvance} loading={loading} />
 
@@ -93,6 +117,14 @@ const Spend = () => {
 
     ]
 
+    const handleSpend = async () => {
+        try {
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     return (
         <View style={styles.spendContainer}>
@@ -112,7 +144,7 @@ const Spend = () => {
             <InputField label={"Amount"} keyBoardType='numeric' value={amount} setChangeValue={setAmount} />
 
             <CustomSwitch label={"Cash"} value={isCash} setValue={setIsCash} />
-            <CustomButton loading={loading} btnLabel={"Save"} />
+            <CustomButton loading={loading} btnLabel={"Save"} btnClick={handleSpend} />
         </View>
     )
 }
