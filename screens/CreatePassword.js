@@ -6,10 +6,12 @@ import color from '../constant/color'
 import { useState } from 'react'
 import CustomButton from '../components/CustomButton'
 import { useNavigation } from '@react-navigation/native'
+import Toast from "../components/Toast"
+import { createPassword } from '../Helper/api'
 
 const { width, height } = Dimensions.get('screen')
 const CreatePassword = () => {
-    const [oldPassword, setOldPassword] = useState(null)
+    const [mobile, setMobile] = useState(null)
     const [newPassword, setNewPassword] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -17,36 +19,34 @@ const CreatePassword = () => {
     const navigation = useNavigation()
 
     const setStateEmpty = () => {
-        setOldPassword(null)
+        setMobile(null)
         setNewPassword(null)
         setConfirmPassword(null)
     }
 
     //handle update
-    const handleCreate = () => {
+    const handleCreate = async () => {
         setError(null)
         try {
-            if (!oldPassword) {
-                if (newPassword === confirmPassword) {
-                    setLoading(true)
-                    //logic
 
-                    // navigation.goBack()
-                    setLoading(false)
-                } else {
-                    setError("New and Confirm password not match")
+            if (newPassword === confirmPassword) {
+                setLoading(true)
+                //logic
+                const response = await createPassword(mobile, newPassword)
+                if (response?.status) {
+                    Toast("Password change sucessfully")
+                    setStateEmpty()
+                    navigation.goBack()
                 }
+
+                setError(response?.message)
+
+                setLoading(false)
             } else {
-                if (newPassword === confirmPassword) {
-                    setLoading(true)
-                    //logic
-                    // navigation.goBack()
-                    setLoading(false)
-                } else {
-                    setError("New and Confirm password not match")
-
-                }
+                setError("New and Confirm password not match")
+                return
             }
+
         } catch (error) {
             setLoading(false)
             console.log(error)
@@ -59,7 +59,7 @@ const CreatePassword = () => {
 
                 <Text style={styles.title}>Create Password</Text>
                 {error && <Text style={styles.errorMessage}>{error}</Text>}
-                <InputField label={"Mobile Number"} value={oldPassword} setChangeValue={setOldPassword} keyBoardType='numeric' />
+                <InputField label={"Mobile Number"} value={mobile} setChangeValue={setMobile} keyBoardType='numeric' />
                 <InputField label={"New Password"} value={newPassword} setChangeValue={setNewPassword} isPassword={true} />
                 <InputField label={"Confirm Password"} value={confirmPassword} setChangeValue={setConfirmPassword} isPassword={true} />
                 <CustomButton btnLabel={"Create"} loading={loading} btnClick={handleCreate} />
