@@ -297,4 +297,38 @@ const changePassword = async ({ oldPassword, newPassword, mobile, token }) => {
 
 }
 
-export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser, giveAttendance, getAttendance, createPassword, changePassword }
+// add advance
+
+const addAdvance = async ({ mobile, advance, description, token }) => {
+    const URL = BASE_URL + "/api/v1/money/add"
+    const isCash = true
+    try {
+        const req = {
+            isCash: isCash,
+            sender: mobile,
+            recipient: "admin",
+            amount: advance,
+            description: description,
+        }
+        console.log(req)
+        const response = await fetch(URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+
+            },
+            body: JSON.stringify(req)
+
+        })
+        const user = await response.json()
+        console.log(user)
+        return user
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser, giveAttendance, getAttendance, createPassword, changePassword, addAdvance }
