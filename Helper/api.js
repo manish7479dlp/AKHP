@@ -250,6 +250,26 @@ const getAttendance = async ({ token, mobile }) => {
 
 }
 
+// create password
+const createPassword = async (mobile, password) => {
+    const URL = BASE_URL + "/api/v1/user/" + mobile + "/forgot-password"
+    try {
+        const response = await fetch(URL, {
+            method: "Patch",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ password })
 
+        })
+        const user = await response.json()
+        console.log(user)
+        return user
 
-export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser, giveAttendance, getAttendance }
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser, giveAttendance, getAttendance, createPassword }
