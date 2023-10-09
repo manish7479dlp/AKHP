@@ -11,6 +11,7 @@ import EditMeal from './screens/EditMeal';
 import SplashScreen from './screens/SplashScreen';
 import ChangePassword from './screens/ChangePassword';
 import Profile from './components/Profile';
+import CreatePassword from './screens/CreatePassword';
 
 
 export default function App() {
@@ -26,6 +27,11 @@ export default function App() {
               headerShown: false,
               animation: 'slide_from_right'
             }} name='splashScreen' component={SplashScreen} />
+
+            <Stack.Screen options={{
+              headerShown: false,
+              animation: 'slide_from_right'
+            }} name='createPassword' component={CreatePassword} />
 
             <Stack.Screen options={{
               headerShown: false,
