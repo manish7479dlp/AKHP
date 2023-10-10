@@ -131,7 +131,7 @@ const ExpencesRecipt = ({ date, outExpences }) => {
     const expancesOnGas = expancesOnDay?.filter(getFilter({ "recipient": "Gas" }))
 
     // expanse on Other shop
-    const expancesOnOtherShop = expancesOnDay?.filter(getFilter({ "recipient": "Other Shop" }))
+    const expancesOnOtherShop = expancesOnDay?.filter(getFilter({ "recipient": "Others" }))
 
 
     if (expancesOnDay?.length === 0) {
