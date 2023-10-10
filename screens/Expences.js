@@ -189,7 +189,7 @@ const ShopNameWithItems = ({ shopName, expences }) => {
                 {
                     expences.map((data, idx) => {
                         return (
-                            <ItemContent item={data?.item} quantity={data?.quantity} rupees={data?.amount} key={idx} />
+                            <ItemContent idx={idx} item={data?.item} quantity={data?.quantity} rupees={data?.amount} key={idx} />
 
                         )
                     })
@@ -199,9 +199,11 @@ const ShopNameWithItems = ({ shopName, expences }) => {
     )
 }
 
-const ItemContent = ({ item, quantity, rupees }) => {
+const ItemContent = ({ item, quantity, rupees, idx }) => {
+
+    const bg = idx % 2 === 0 ? color.background : 'white'
     return (
-        <View style={styles.itemContent}>
+        <View style={[styles.itemContent, { backgroundColor: bg }]}>
             <Text style={styles.itemContentText}>{item}</Text>
             <Text style={styles.itemContentText}>{quantity}</Text>
             <Text style={styles.itemContentText}>{rupees}</Text>
@@ -245,27 +247,27 @@ const styles = StyleSheet.create({
     itemHeader: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         padding: 5
     },
     ItemHeaderText: {
-        width: 100,
-        fontSize: 17,
+        // width: 100,
+        fontSize: 16,
         color: color.first,
-        fontWeight: "600"
+        fontWeight: "500"
     },
 
     // item content
     itemContent: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         alignItems: 'center',
         padding: 3,
         // backgroundColor: "red"
     },
     itemContentText: {
-        width: 100,
+        // width: 100,
         fontSize: 14,
         color: color.second,
         fontWeight: "500",
@@ -273,9 +275,10 @@ const styles = StyleSheet.create({
     shopName: {
         fontSize: 18,
         fontWeight: '600',
-        color: 'grey',
+        color: color.third,
         textAlign: 'center',
-        padding: 8
+        // padding: 8
+        marginTop: 10
     }
 
 
