@@ -114,7 +114,8 @@ const Spend = ({ token }) => {
         { key: '2', value: 'Grocery Shop' },
         { key: '3', value: 'Chicken Shop' },
         { key: '4', value: 'Fish Shop' },
-        { key: '5', value: 'Others' },
+        { key: '5', value: 'Gas' },
+        { key: '6', value: 'Others' },
 
     ]
 
