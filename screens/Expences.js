@@ -68,7 +68,12 @@ const Expences = () => {
     return (
         <SafeAreaView style={styles.container}>
             <UserData />
-            <TotalExpanses />
+            <TotalExpanses label={"Monthly Expences"} amount={12408} />
+            <TotalExpanses label={"Advance Left"} amount={1200} />
+            <TotalExpanses label={"Due"} amount={1900} />
+
+
+
             {/* <AccordionContainer outExpences={outExpences?.data} /> */}
             <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -98,11 +103,11 @@ const Expences = () => {
 
 export default Expences
 
-const TotalExpanses = () => {
+const TotalExpanses = ({ label, amount }) => {
     return (
         <View style={styles.expansesTotalContainer}>
-            <Text style={{ color: "white", fontWeight: "500", fontSize: 17 }}>Monthly Expanses</Text>
-            <Text style={{ color: "white", fontWeight: "600", fontSize: 18 }}> <FontAwesome name="rupee" size={17} color="white" /> 1456</Text>
+            <Text style={{ color: "white", fontWeight: "500", fontSize: 17 }}>{label}</Text>
+            <Text style={{ color: "white", fontWeight: "600", fontSize: 18 }}> <FontAwesome name="rupee" size={17} color="white" /> {amount}</Text>
         </View>
     )
 }
