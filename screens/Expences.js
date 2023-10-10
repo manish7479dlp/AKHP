@@ -1,4 +1,4 @@
-import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import UserData from '../components/UserData'
@@ -16,6 +16,7 @@ const { height, width } = Dimensions.get('screen')
 const Expences = () => {
     const [outExpences, setOutExpences] = useState()
     const userData = useSelector((state) => state.user.data)
+    const [refreshing, setRefreshing] = useState(false)
     const token = userData.token
 
     var date = new Date().getDate();
@@ -51,7 +52,7 @@ const Expences = () => {
         outExpences()
 
 
-    }, []);
+    }, [refreshing]);
 
 
 
@@ -65,6 +66,13 @@ const Expences = () => {
         const data = outExpences?.data?.filter(getFilter(filters))
     }
 
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    }, []);
+
     return (
         <SafeAreaView style={styles.container}>
             <UserData />
@@ -72,6 +80,10 @@ const Expences = () => {
             {/* <AccordionContainer outExpences={outExpences?.data} /> */}
             <ScrollView
                 showsVerticalScrollIndicator={false}
+
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
             >
                 {/* <Text>{DATE.length} </Text> */}
                 {
