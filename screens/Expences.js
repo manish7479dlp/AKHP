@@ -11,6 +11,7 @@ import { getAllOutExpences } from '../Helper/api'
 import { useSelector } from 'react-redux'
 import Toast from '../components/Toast'
 import { getFilter } from "../Helper/utils"
+import { useEffect } from 'react'
 const { height, width } = Dimensions.get('screen')
 
 const Expences = () => {
@@ -34,7 +35,7 @@ const Expences = () => {
         i++
     }
 
-    useState(() => {
+    useEffect(() => {
 
         const outExpences = async () => {
             try {
@@ -55,16 +56,6 @@ const Expences = () => {
     }, [refreshing]);
 
 
-
-
-
-    const getGroceryExpeneces = (respone) => {
-        const filters = {
-            "recipient": "Grocery Shop",
-            "created_at": "2023-10-07"
-        }
-        const data = outExpences?.data?.filter(getFilter(filters))
-    }
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
@@ -116,6 +107,8 @@ const TotalExpanses = () => {
 }
 
 const ExpencesRecipt = ({ date, outExpences }) => {
+
+
     const filters = {
         "created_at": date
     }
