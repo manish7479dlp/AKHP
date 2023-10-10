@@ -13,6 +13,7 @@ import Toast from '../components/Toast'
 import { getFilter } from "../Helper/utils"
 import { useEffect } from 'react'
 const { height, width } = Dimensions.get('screen')
+import { Fontisto } from '@expo/vector-icons';
 
 const Expences = () => {
     const [outExpences, setOutExpences] = useState()
@@ -138,10 +139,12 @@ const ExpencesRecipt = ({ date, outExpences }) => {
         return
     }
 
+    date = date.split("-")
+
     return (
 
         <View style={styles.reciptContainer}>
-            <Text style={styles.date}>Date : {date}</Text>
+            <Text style={styles.date}><Fontisto name="date" size={18} color={color.second} /> {`${date[2]}-${date[1]}-${date[0]}`}</Text>
 
             {
                 expancesOnGroceryShop?.length > 0 && <ShopNameWithItems expences={expancesOnGroceryShop} shopName={"Grocery Shop"} />
@@ -233,8 +236,8 @@ const styles = StyleSheet.create({
     },
     date: {
         fontWeight: '700',
-        fontSize: 20,
-        color: color.first,
+        fontSize: 18,
+        color: 'rgb(249, 72, 72)',
         // padding: 10
     },
 
