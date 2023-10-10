@@ -366,4 +366,27 @@ const spendMoney = async ({ amount, description, token, recipient, quantity, ite
 
 }
 
-export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser, giveAttendance, getAttendance, createPassword, changePassword, addAdvance, spendMoney }
+//getAllOUt Expences
+const getAllOutExpences = async (token) => {
+    const URL = BASE_URL + "/api/v1/transaction?type=out"
+    try {
+        const response = await fetch(URL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+
+            },
+
+        })
+        const user = await response.json()
+        console.log(user)
+        return user
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+export { userLogin, createUser, editUser, deleteUser, getAlltRoutine, getRoutineDayWise, editRoutineById, getUserByMobile, getAllUser, giveAttendance, getAttendance, createPassword, changePassword, addAdvance, spendMoney, getAllOutExpences }
