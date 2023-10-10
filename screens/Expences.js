@@ -144,7 +144,11 @@ const ExpencesRecipt = ({ date, outExpences }) => {
     return (
 
         <View style={styles.reciptContainer}>
-            <Text style={styles.date}><Fontisto name="date" size={18} color={color.second} /> {`${date[2]}-${date[1]}-${date[0]}`}</Text>
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={styles.date}><Fontisto name="date" size={18} color={color.second} /> {`${date[2]}/${date[1]}/${date[0]}`}</Text>
+
+                <Text style={[styles.date, { color: color.second, fontSize: 20 }]}><FontAwesome name="rupee" size={20} color={color.first} /> {10523}</Text>
+            </View>
 
             {
                 expancesOnGroceryShop?.length > 0 && <ShopNameWithItems expences={expancesOnGroceryShop} shopName={"Grocery Shop"} />
