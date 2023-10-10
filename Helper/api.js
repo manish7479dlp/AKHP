@@ -368,7 +368,7 @@ const spendMoney = async ({ amount, description, token, recipient, quantity, ite
 
 //getAllOUt Expences
 const getAllOutExpences = async (token) => {
-    const URL = BASE_URL + "/api/v1/transaction?type=out"
+    const URL = BASE_URL + "/api/v1/money/expenses"
     try {
         const response = await fetch(URL, {
             method: "GET",
