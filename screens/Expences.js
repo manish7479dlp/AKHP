@@ -68,13 +68,6 @@ const Expences = () => {
     return (
         <SafeAreaView style={styles.container}>
             <UserData />
-            <TotalExpanses label={"Monthly Expences"} amount={12408} />
-            <TotalExpanses label={"Advance Left"} amount={1200} />
-            <TotalExpanses label={"Due"} amount={1900} />
-
-
-
-            {/* <AccordionContainer outExpences={outExpences?.data} /> */}
             <ScrollView
                 showsVerticalScrollIndicator={false}
 
@@ -82,6 +75,13 @@ const Expences = () => {
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
             >
+                <TotalExpanses label={"Monthly Expences"} amount={12408} />
+                <TotalExpanses label={"Advance Left"} amount={1200} />
+                <TotalExpanses label={"Due"} amount={1900} />
+
+
+
+                {/* <AccordionContainer outExpences={outExpences?.data} /> */}
                 {/* <Text>{DATE.length} </Text> */}
                 {
                     DATE?.map((date, idx) => {
