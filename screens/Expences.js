@@ -1,298 +1,114 @@
-import { Dimensions, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import UserData from '../components/UserData'
-import AccordionContainer from '../components/AccordionContainer'
-import { FontAwesome } from '@expo/vector-icons';
+import {
+  Dimensions,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+} from "react-native";
 
-import color from '../constant/color'
-import { useState } from 'react'
-import { getAllOutExpences } from '../Helper/api'
-import { useSelector } from 'react-redux'
-import Toast from '../components/Toast'
-import { getFilter } from "../Helper/utils"
-import { useEffect } from 'react'
-const { height, width } = Dimensions.get('screen')
-import { Fontisto } from '@expo/vector-icons';
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import UserData from "../components/UserData";
+import Accordion from "../components/Accordion";
+
+import color from "../constant/color";
+import { useState } from "react";
+import { getAllOutExpences, getSummary } from "../Helper/api";
+import { useSelector } from "react-redux";
+import Toast from "../components/Toast";
+import { useEffect } from "react";
+const { height, width } = Dimensions.get("screen");
 
 const Expences = () => {
-    const [outExpences, setOutExpences] = useState()
-    const userData = useSelector((state) => state.user.data)
-    const [refreshing, setRefreshing] = useState(false)
-    const token = userData.token
+  const [outExpences, setOutExpences] = useState([]);
+  const [summary, setSummary] = useState({});
+  const userData = useSelector((state) => state.user.data);
+  const [refreshing, setRefreshing] = useState(false);
+  const token = userData.token;
 
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-
-    let DATE = new Array(date + 1)
-    let i = 0
-    for (let d = date; d >= 1; d--) {
-        var day = d
-        if (d <= 9) {
-            day = "0" + d
+  useEffect(() => {
+    const outExpences = async () => {
+      try {
+        const respone = await getAllOutExpences(token);
+        if (respone?.status) {
+          setOutExpences(respone?.data);
+        } else {
+          Toast(respone?.message);
         }
-        DATE[i] = `${year}-${month}-${day}`
-        i++
-    }
-
-    useEffect(() => {
-
-        const outExpences = async () => {
-            try {
-                const respone = await getAllOutExpences(token)
-                if (respone?.status) {
-                    setOutExpences(respone)
-                } else {
-                    Toast(respone?.message)
-                }
-            } catch (error) {
-                console.log(error)
-            }
+        const resp = await getSummary(token);
+        if (resp?.status) {
+          setSummary(resp?.data);
+        } else {
+          Toast(resp?.message);
         }
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-        outExpences()
+    outExpences();
+  }, [refreshing]);
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
 
-    }, [refreshing]);
+  return (
+    <SafeAreaView style={styles.container}>
+      <UserData />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <TotalExpanses
+          label={"Total Money Recieved"}
+          amount={summary.totalMoneyReceived}
+        />
+        <TotalExpanses
+          label={"Monthly Expenses"}
+          amount={summary.totalMoneySpent}
+        />
+        <TotalExpanses label={"Money Left"} amount={summary.netMoney} />
+        <TotalExpanses label={"Money Due"} amount={summary.totalMoneyDue} />
+        {/* Accordion */}
+        <Accordion data={outExpences} />
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
-
-
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-        }, 1000);
-    }, []);
-
-    return (
-        <SafeAreaView style={styles.container}>
-            <UserData />
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }
-            >
-                <TotalExpanses label={"Monthly Expences"} amount={12408} />
-                <TotalExpanses label={"Advance Left"} amount={1200} />
-                <TotalExpanses label={"Due"} amount={1900} />
-
-
-
-                {/* <AccordionContainer outExpences={outExpences?.data} /> */}
-                {/* <Text>{DATE.length} </Text> */}
-                {
-                    DATE?.map((date, idx) => {
-                        return (
-
-                            <ExpencesRecipt date={date} outExpences={outExpences} key={idx} />
-                        )
-                    })
-
-
-
-                }
-
-            </ScrollView>
-
-        </SafeAreaView>
-    )
-}
-
-export default Expences
+export default Expences;
 
 const TotalExpanses = ({ label, amount }) => {
-    return (
-        <View style={styles.expansesTotalContainer}>
-            <Text style={{ color: "white", fontWeight: "500", fontSize: 17 }}>{label}</Text>
-            <Text style={{ color: "white", fontWeight: "600", fontSize: 18 }}> <FontAwesome name="rupee" size={17} color="white" /> {amount}</Text>
-        </View>
-    )
-}
-
-const ExpencesRecipt = ({ date, outExpences }) => {
-
-
-    const filters = {
-        "created_at": date
-    }
-    //each day Expances
-    const expancesOnDay = outExpences?.data?.filter(getFilter(filters))
-
-    // expanse on Grocery shop
-    const expancesOnGroceryShop = expancesOnDay?.filter(getFilter({ "recipient": "Grocery Shop" }))
-
-    // expanse on Vegetable shop
-    const expancesOnVegetableShop = expancesOnDay?.filter(getFilter({ "recipient": "Vegetable Shop" }))
-
-    // expanse on Chicken shop
-    const expancesOnChickenShop = expancesOnDay?.filter(getFilter({ "recipient": "Chicken Shop" }))
-
-    // expanse on Fish shop
-    const expancesOnFishShop = expancesOnDay?.filter(getFilter({ "recipient": "Fish Shop" }))
-
-    // expanse on Fish shop
-    const expancesOnGas = expancesOnDay?.filter(getFilter({ "recipient": "Gas" }))
-
-    // expanse on Other shop
-    const expancesOnOtherShop = expancesOnDay?.filter(getFilter({ "recipient": "Others" }))
-
-
-    if (expancesOnDay?.length === 0) {
-        return
-    }
-
-    date = date.split("-")
-
-    return (
-
-        <View style={styles.reciptContainer}>
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text style={styles.date}><Fontisto name="date" size={18} color={color.second} /> {`${date[2]}/${date[1]}/${date[0]}`}</Text>
-
-                <Text style={[styles.date, { color: color.second, fontSize: 20 }]}><FontAwesome name="rupee" size={20} color={color.first} /> {10523}</Text>
-            </View>
-
-            {
-                expancesOnGroceryShop?.length > 0 && <ShopNameWithItems expences={expancesOnGroceryShop} shopName={"Grocery Shop"} />
-            }
-
-            {
-                expancesOnVegetableShop?.length > 0 && <ShopNameWithItems expences={expancesOnVegetableShop} shopName={"Vegetable Shop"} />
-            }
-
-            {
-                expancesOnChickenShop?.length > 0 && <ShopNameWithItems expences={expancesOnChickenShop} shopName={"Chicken Shop"} />
-            }
-
-            {
-                expancesOnFishShop?.length > 0 && <ShopNameWithItems expences={expancesOnFishShop} shopName={"Fish Shop"} />
-            }
-
-            {
-                expancesOnOtherShop?.length > 0 && <ShopNameWithItems expences={expancesOnOtherShop} shopName={"Other Shop"} />
-            }
-
-            {
-                expancesOnGas?.length > 0 && <ShopNameWithItems expences={expancesOnGas} shopName={"Other Shop"} />
-            }
-
-
-        </View>
-    )
-}
-
-const ShopNameWithItems = ({ shopName, expences }) => {
-    return (
-        <View>
-            <Text style={styles.shopName}>{shopName}</Text>
-            <View style={styles.content}>
-
-
-                <View style={styles.itemHeader}>
-                    <Text style={styles.ItemHeaderText}>Items</Text>
-                    <Text style={styles.ItemHeaderText}>Quantity</Text>
-                    <Text style={styles.ItemHeaderText}>Rupees</Text>
-
-                </View>
-
-                {
-                    expences.map((data, idx) => {
-                        return (
-                            <ItemContent idx={idx} item={data?.item} quantity={data?.quantity} rupees={data?.amount} key={idx} />
-
-                        )
-                    })
-                }
-            </View>
-        </View>
-    )
-}
-
-const ItemContent = ({ item, quantity, rupees, idx }) => {
-
-    const bg = idx % 2 === 0 ? color.background : 'white'
-    return (
-        <View style={[styles.itemContent, { backgroundColor: bg }]}>
-            <Text style={styles.itemContentText}>{item}</Text>
-            <Text style={styles.itemContentText}>{quantity}</Text>
-            <Text style={styles.itemContentText}>{rupees}</Text>
-
-        </View>
-    )
-}
+  return (
+    <View style={styles.expansesTotalContainer}>
+      <Text style={{ color: "white", fontWeight: "500", fontSize: 17 }}>
+        {label}
+      </Text>
+      <Text style={{ color: "white", fontWeight: "600", fontSize: 18 }}>
+        {" "}
+        ₹ {amount}
+      </Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        height: height * .94
-    },
-    expansesTotalContainer: {
-        backgroundColor: color.second,
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 10,
-    },
-    reciptContainer: {
-        padding: 20,
-        backgroundColor: 'white',
-        // borderWidth: 2,
-        margin: 10,
-        borderRadius: 10
-    },
-    date: {
-        fontWeight: '700',
-        fontSize: 18,
-        color: 'rgb(249, 72, 72)',
-        // padding: 10
-    },
-
-    // recipt content
-    content: {
-        margin: 5,
-        // borderWidth: 1
-    },
-    // item style
-    itemHeader: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 5
-    },
-    ItemHeaderText: {
-        // width: 100,
-        fontSize: 16,
-        color: color.first,
-        fontWeight: "500"
-    },
-
-    // item content
-    itemContent: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 3,
-        // backgroundColor: "red"
-    },
-    itemContentText: {
-        // width: 100,
-        fontSize: 14,
-        color: color.second,
-        fontWeight: "500",
-    },
-    shopName: {
-        fontSize: 18,
-        fontWeight: '600',
-        color: color.third,
-        textAlign: 'center',
-        // padding: 8
-        marginTop: 10
-    }
-
-
-
-})
+  container: {
+    height: height * 0.94,
+  },
+  expansesTotalContainer: {
+    backgroundColor: color.second,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10,
+  },
+});
