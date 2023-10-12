@@ -70,33 +70,16 @@ const Accordion = ({ data }) => {
             </TouchableOpacity>
 
             <Collapsible collapsed={activeAccordion !== createdAtDate}>
-              {Object.keys(groupData.recipients).map((recipient) => {
+              {Object.keys(groupData.recipients).map((recipient, idx) => {
                 const recipientData = groupData.recipients[recipient];
 
                 return (
-                  <View key={recipient} style={styles.subItemContainer}>
-                    <Text style={styles.recipientText}>
-                      {recipient}: ({recipientData.transactions.length}{" "}
-                      transactions, Total: ₹ {recipientData.totalAmount})
-                    </Text>
-
-                    <View style={styles.transactionContainer}>
-                      {recipientData.transactions.map((transaction) => (
-                        <View
-                          key={transaction._id}
-                          style={styles.transactionItem}
-                        >
-                          <Text style={{ fontWeight: "bold" }}>
-                            {transaction.item.trim()},{" "}
-                            {transaction.quantity.trim()}, Price: ₹{" "}
-                            {transaction.amount}
-                          </Text>
-                        </View>
-                      ))}
-                    </View>
-                  </View>
+                  <ShopNameWithItems shopName={recipient} expences={recipientData?.transactions} key={idx} />
                 );
               })}
+
+
+
             </Collapsible>
           </View>
         );
@@ -104,6 +87,46 @@ const Accordion = ({ data }) => {
     </ScrollView>
   );
 };
+
+const ShopNameWithItems = ({ shopName, expences }) => {
+  return (
+    <View>
+      <Text style={styles.shopName}>{shopName}</Text>
+      <View style={styles.content}>
+
+
+        <View style={styles.itemHeader}>
+          <Text style={styles.ItemHeaderText}>Items</Text>
+          <Text style={styles.ItemHeaderText}>Quantity</Text>
+          <Text style={styles.ItemHeaderText}>Rupees</Text>
+
+        </View>
+
+        {
+          expences.map((data, idx) => {
+            return (
+              <ItemContent idx={idx} item={data?.item} quantity={data?.quantity} rupees={data?.amount} key={idx} />
+
+            )
+          })
+        }
+      </View>
+    </View>
+  )
+}
+
+const ItemContent = ({ item, quantity, rupees, idx }) => {
+
+  const bg = idx % 2 === 0 ? color.background : 'white'
+  return (
+    <View style={[styles.itemContent, { backgroundColor: bg }]}>
+      <Text style={styles.itemContentText}>{item}</Text>
+      <Text style={styles.itemContentText}>{quantity}</Text>
+      <Text style={styles.itemContentText}>{rupees}</Text>
+
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -144,6 +167,44 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "#D3D3D3",
   },
+
+  // item style
+  itemHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 5
+  },
+  ItemHeaderText: {
+    // width: 100,
+    fontSize: 16,
+    color: color.first,
+    fontWeight: "500"
+  },
+
+  // item content
+  itemContent: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 3,
+    // backgroundColor: "red"
+  },
+  itemContentText: {
+    // width: 100,
+    fontSize: 14,
+    color: color.second,
+    fontWeight: "500",
+  },
+  shopName: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: color.third,
+    textAlign: 'center',
+    // padding: 8
+    marginTop: 10
+  }
 });
 
 export default Accordion;
