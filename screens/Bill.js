@@ -78,7 +78,7 @@ const DetailBill = ({ usersBill }) => {
                 <Text style={styles.header}>Advance</Text>
                 <Text style={styles.header}>Payable</Text>
                 <Text style={styles.header}>Due</Text>
-                <Text style={styles.header}>Duration</Text>
+                <Text style={styles.header}>Month</Text>
 
 
 
