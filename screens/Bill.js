@@ -6,14 +6,17 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { getBill } from '../Helper/api'
 import color from '../constant/color'
+import { useSelector } from 'react-redux'
 
 const Bill = () => {
     const [bill, setBill] = useState()
     const [loading, setLoading] = useState()
+    const userData = useSelector((state) => state?.user?.data)
+
 
     useEffect(() => {
         const gBill = async () => {
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIxYzRiMjQwYi05YjlhLTQxOTAtODVhMi1iMTEwNTRlYjMxZjIiLCJuYW1lIjoiTWFuaXNoIEt1bWFyIiwieWVhciI6IjQiLCJtb2JpbGUiOiI3NDc5ODYzOTE4Iiwicm9sZSI6InVzZXIiLCJhY2Nlc3NMZXZlbCI6MSwiaWF0IjoxNjk3MTE5MTUwLCJleHAiOjE2OTc3MjM5NTAsImF1ZCI6Ik1NUyIsImlzcyI6Ik1NUyIsInN1YiI6IjFjNGIyNDBiLTliOWEtNDE5MC04NWEyLWIxMTA1NGViMzFmMiJ9.0_kQZ2byErK7o7q5TdDWBoXqXKoBDY8HD59EomhOOS0"
+            const token = userData?.token
             try {
                 setLoading(true)
                 const response = await getBill(token)
