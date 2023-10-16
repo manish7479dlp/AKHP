@@ -12,6 +12,7 @@ import SplashScreen from './screens/SplashScreen';
 import ChangePassword from './screens/ChangePassword';
 import Profile from './components/Profile';
 import CreatePassword from './screens/CreatePassword';
+import Bill from './screens/Bill';
 
 
 export default function App() {
@@ -23,10 +24,18 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator>
 
+
+
             <Stack.Screen options={{
               headerShown: false,
               animation: 'slide_from_right'
             }} name='splashScreen' component={SplashScreen} />
+
+            <Stack.Screen options={{
+              headerShown: false,
+              animation: 'slide_from_right'
+            }} name='bill' component={Bill} />
+
 
             <Stack.Screen options={{
               headerShown: false,
