@@ -13,6 +13,7 @@ import ChangePassword from './screens/ChangePassword';
 import Profile from './components/Profile';
 import CreatePassword from './screens/CreatePassword';
 import Bill from './screens/Bill';
+import ChangeAdmin from './screens/ChangeAdmin';
 
 
 export default function App() {
@@ -35,6 +36,11 @@ export default function App() {
               headerShown: false,
               animation: 'slide_from_right'
             }} name='bill' component={Bill} />
+
+            <Stack.Screen options={{
+              headerShown: false,
+              animation: 'slide_from_right'
+            }} name='changeAdmin' component={ChangeAdmin} />
 
 
             <Stack.Screen options={{
