@@ -129,7 +129,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 5
+        marginTop: 5,
+        borderTopWidth: 2,
+        borderBottomWidth: 2,
+        marginBottom: 3,
+        paddingVertical: 8
     },
     header: {
         fontWeight: '600',
