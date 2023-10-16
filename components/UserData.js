@@ -69,7 +69,7 @@ const CustomModal = ({ visible, setVisible }) => {
                     <Text style={styles.btnLabel}>Profile</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnContainer} onPress={() => { navigation.navigate("bill") }}>
-                    <FontAwesome5 name="money-bill" size={20} color={color.second} />
+                    <FontAwesome5 name="money-bill" size={20} color={color.second} style={{ marginRight: 2 }} />
                     <Text style={styles.btnLabel}>Bill</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnContainer} onPress={handleLogout}>
