@@ -31,7 +31,9 @@ const Bill = () => {
     return (
         <SafeAreaView>
             <UserData />
-            <ScrollView>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+            >
                 <TotalExpanses label={"Total Money Spent"} amount={bill?.totalMoneySpent} />
                 <TotalExpanses label={"Money Received"} amount={bill?.moneyReceived} />
                 <TotalExpanses label={"Money Available"} amount={bill?.moneyAvailable} />
