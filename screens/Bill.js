@@ -78,6 +78,8 @@ const DetailBill = ({ usersBill }) => {
                 <Text style={styles.header}>Advance</Text>
                 <Text style={styles.header}>Payable</Text>
                 <Text style={styles.header}>Due</Text>
+                <Text style={styles.header}>Duration</Text>
+
 
 
             </View>
@@ -98,10 +100,12 @@ const PerUserBill = ({ data, idx }) => {
     var bgColor = idx % 2 === 1 ? color.background : "white"
     return (
         <View style={[styles.perUserBillContainer, { backgroundColor: bgColor }]}>
-            <Text style={styles.data}>Manish</Text>
+            <Text style={styles.data}>{"Manish"}</Text>
             <Text style={styles.data}>{data?.moneyAdvance}</Text>
             <Text style={styles.data}>{data?.totalPayable}</Text>
             <Text style={styles.data}>{data?.moneyDue}</Text>
+            <Text style={styles.data}>{data?.duration}</Text>
+
 
 
         </View>
@@ -136,8 +140,8 @@ const styles = StyleSheet.create({
         paddingVertical: 8
     },
     header: {
-        fontWeight: '600',
-        fontSize: 18,
+        fontWeight: '500',
+        fontSize: 14,
         color: color.first
     },
     perUserBillContainer: {
@@ -149,8 +153,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     data: {
-        fontWeight: "600",
-        fontSize: 17,
+        fontWeight: "400",
+        fontSize: 13,
         color: color.second
     }
 
