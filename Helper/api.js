@@ -391,6 +391,25 @@ const getSummary = async (token) => {
   }
 };
 
+// getBill
+const getBill = async (token) => {
+  const URL = BASE_URL + "/api/v1/bill/get";
+  try {
+    const response = await fetch(URL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const resp = await response.json();
+    console.log(resp);
+    return resp;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   userLogin,
   createUser,
@@ -409,4 +428,5 @@ export {
   spendMoney,
   getAllOutExpences,
   getSummary,
+  getBill
 };
