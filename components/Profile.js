@@ -56,6 +56,8 @@ const Profile = () => {
 
                     </View>
                     <CustomButton btnLabel={"Change Password"} btnClick={handleChangePassword} />
+                    <CustomButton btnLabel={"Transfer Admin"} btnClick={() => { navigation.navigate("changeAdmin") }} />
+
                 </View>
             </ScrollView>
         </SafeAreaView>
