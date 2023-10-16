@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/core';
 import { setUser } from '../store/UserSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Entypo } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 const USER = 'user'
 
 const { width, height } = Dimensions.get('screen')
@@ -67,6 +67,10 @@ const CustomModal = ({ visible, setVisible }) => {
                 <TouchableOpacity style={styles.btnContainer} onPress={handleProfile}>
                     <AntDesign name="user" size={20} color={color.first} />
                     <Text style={styles.btnLabel}>Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btnContainer} onPress={() => { navigation.navigate("bill") }}>
+                    <FontAwesome5 name="money-bill" size={20} color={color.second} />
+                    <Text style={styles.btnLabel}>Bill</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnContainer} onPress={handleLogout}>
                     <MaterialCommunityIcons name="logout" size={20} color={color.first} />
